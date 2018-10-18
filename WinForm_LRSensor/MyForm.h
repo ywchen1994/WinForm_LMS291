@@ -2100,7 +2100,7 @@ private: System::Windows::Forms::Button^  Btn_UpDateFileName;
 				Pt_newClusterRefPt[i] = min;
 				
 			}
-			if (Pt_oldClusterRefPoint.size() != Pt_newClusterRefPt.size()) {
+			if (Pt_oldClusterRefPoint.size() == 0) {
 				for (uint i = 0; i < Pt_newClusterRefPt.size(); i++)
 					Pt_newClusterRefPt[i].KF_initial();
 				Pt_oldClusterRefPoint = Pt_newClusterRefPt;
