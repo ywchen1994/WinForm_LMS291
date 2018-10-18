@@ -8,8 +8,8 @@
 #include "CTBox.h"
 #include"opencv2\opencv.hpp"
 #include"..\DeviceEnum\DeviceEnumerator.h"
+#include<time.h>
 
-typedef unsigned int uint;
 
 namespace WinForm_LRSensor {
 
@@ -47,8 +47,8 @@ namespace WinForm_LRSensor {
 	Pt right_Radar_bias;
 	Radar RadarData;
 	std::string FileNameTime;
-	uint Datalength = 0;
-	uint f_model_changed = 0;
+	
+	int f_model_changed = 0;
 	VideoWriter videoWrite;
 	RNG rng(12345);
 	time_t t1;
@@ -64,7 +64,7 @@ namespace WinForm_LRSensor {
 			InitializeComponent();
 			//
 			//TODO:  在此加入建構函式程式碼
-			timer1->Interval = 30;
+			timer1->Interval = 10;
 			timer1->Start();
 			ComPortRefresh();
 			chart1->Show();
@@ -74,11 +74,11 @@ namespace WinForm_LRSensor {
 			uint currnetTime = System::DateTime::Now.Minute * 10000 + System::DateTime::Now.Second * 100 + System::DateTime::Now.Millisecond;
 			sprintf(timeNow, "%d", currnetTime);
 			FileNameTime = (string)"RecordData" + (string)timeNow;
-			std::string str = (string)"mkdir "+ FileNameTime;
+			std::string str = (string)"mkdir " + FileNameTime;
 			system(str.c_str());
 			str = FileNameTime + (string)"\\VideoTest.avi";
-			
 			PartitionValue = Convert::ToDouble(tBox_Partition->Text) * 100;
+		
 		}
 
 	protected:
@@ -103,6 +103,7 @@ namespace WinForm_LRSensor {
 		/// <summary>
 		/// 設計工具所需的變數。
 		/// </summary>
+		double CurrentSpeed = 0;
 		uint LiDARbufferIndex = 0;
 		bool f_getLiDARData = false;
 		bool f_getRRadarBias;
@@ -182,14 +183,20 @@ namespace WinForm_LRSensor {
 	private: System::Windows::Forms::DataGridViewTextBoxColumn^  dataGridViewTextBoxColumn2;
 	private: System::Windows::Forms::DataGridView^  dataGridView3;
 	private: System::Windows::Forms::DataGridViewTextBoxColumn^  dataGridViewTextBoxColumn3;
-private: System::Windows::Forms::DataVisualization::Charting::Chart^  chart2;
-private: System::Windows::Forms::Button^  Btn_PlayPause;
-private: System::Windows::Forms::PictureBox^  pictureBox2;
-private: System::Windows::Forms::Timer^  timer2;
+	private: System::Windows::Forms::DataVisualization::Charting::Chart^  chart2;
+	private: System::Windows::Forms::Button^  Btn_PlayPause;
+	private: System::Windows::Forms::PictureBox^  pictureBox2;
+	private: System::Windows::Forms::Timer^  timer2;
+	private: System::Windows::Forms::Label^  Tx_CarSpeed2;
+private: System::Windows::Forms::ComboBox^  cBox_LIDAR_Mode;
+
+private: System::Windows::Forms::Label^  label1;
+private: System::Windows::Forms::Button^  Btn_UpDateFileName;
+
 	private: System::Windows::Forms::DataGridViewTextBoxColumn^  dataGridViewTextBoxColumn4;
 
 
-			
+
 
 #pragma region Windows Form Designer generated code
 			 /// <summary>
@@ -199,25 +206,26 @@ private: System::Windows::Forms::Timer^  timer2;
 			 void InitializeComponent(void)
 			 {
 				 this->components = (gcnew System::ComponentModel::Container());
-				 System::Windows::Forms::DataVisualization::Charting::ChartArea^  chartArea4 = (gcnew System::Windows::Forms::DataVisualization::Charting::ChartArea());
-				 System::Windows::Forms::DataVisualization::Charting::Legend^  legend4 = (gcnew System::Windows::Forms::DataVisualization::Charting::Legend());
-				 System::Windows::Forms::DataVisualization::Charting::Series^  series19 = (gcnew System::Windows::Forms::DataVisualization::Charting::Series());
-				 System::Windows::Forms::DataVisualization::Charting::Series^  series20 = (gcnew System::Windows::Forms::DataVisualization::Charting::Series());
-				 System::Windows::Forms::DataVisualization::Charting::Series^  series21 = (gcnew System::Windows::Forms::DataVisualization::Charting::Series());
-				 System::Windows::Forms::DataVisualization::Charting::Series^  series22 = (gcnew System::Windows::Forms::DataVisualization::Charting::Series());
-				 System::Windows::Forms::DataVisualization::Charting::Series^  series23 = (gcnew System::Windows::Forms::DataVisualization::Charting::Series());
-				 System::Windows::Forms::DataVisualization::Charting::Series^  series24 = (gcnew System::Windows::Forms::DataVisualization::Charting::Series());
+				 System::Windows::Forms::DataVisualization::Charting::ChartArea^  chartArea1 = (gcnew System::Windows::Forms::DataVisualization::Charting::ChartArea());
+				 System::Windows::Forms::DataVisualization::Charting::Legend^  legend1 = (gcnew System::Windows::Forms::DataVisualization::Charting::Legend());
+				 System::Windows::Forms::DataVisualization::Charting::Series^  series1 = (gcnew System::Windows::Forms::DataVisualization::Charting::Series());
+				 System::Windows::Forms::DataVisualization::Charting::Series^  series2 = (gcnew System::Windows::Forms::DataVisualization::Charting::Series());
+				 System::Windows::Forms::DataVisualization::Charting::Series^  series3 = (gcnew System::Windows::Forms::DataVisualization::Charting::Series());
+				 System::Windows::Forms::DataVisualization::Charting::Series^  series4 = (gcnew System::Windows::Forms::DataVisualization::Charting::Series());
+				 System::Windows::Forms::DataVisualization::Charting::Series^  series5 = (gcnew System::Windows::Forms::DataVisualization::Charting::Series());
+				 System::Windows::Forms::DataVisualization::Charting::Series^  series6 = (gcnew System::Windows::Forms::DataVisualization::Charting::Series());
 				 System::ComponentModel::ComponentResourceManager^  resources = (gcnew System::ComponentModel::ComponentResourceManager(MyForm::typeid));
-				 System::Windows::Forms::DataVisualization::Charting::ChartArea^  chartArea3 = (gcnew System::Windows::Forms::DataVisualization::Charting::ChartArea());
-				 System::Windows::Forms::DataVisualization::Charting::Legend^  legend3 = (gcnew System::Windows::Forms::DataVisualization::Charting::Legend());
-				 System::Windows::Forms::DataVisualization::Charting::Series^  series13 = (gcnew System::Windows::Forms::DataVisualization::Charting::Series());
-				 System::Windows::Forms::DataVisualization::Charting::Series^  series14 = (gcnew System::Windows::Forms::DataVisualization::Charting::Series());
-				 System::Windows::Forms::DataVisualization::Charting::Series^  series15 = (gcnew System::Windows::Forms::DataVisualization::Charting::Series());
-				 System::Windows::Forms::DataVisualization::Charting::Series^  series16 = (gcnew System::Windows::Forms::DataVisualization::Charting::Series());
-				 System::Windows::Forms::DataVisualization::Charting::Series^  series17 = (gcnew System::Windows::Forms::DataVisualization::Charting::Series());
-				 System::Windows::Forms::DataVisualization::Charting::Series^  series18 = (gcnew System::Windows::Forms::DataVisualization::Charting::Series());
+				 System::Windows::Forms::DataVisualization::Charting::ChartArea^  chartArea2 = (gcnew System::Windows::Forms::DataVisualization::Charting::ChartArea());
+				 System::Windows::Forms::DataVisualization::Charting::Legend^  legend2 = (gcnew System::Windows::Forms::DataVisualization::Charting::Legend());
+				 System::Windows::Forms::DataVisualization::Charting::Series^  series7 = (gcnew System::Windows::Forms::DataVisualization::Charting::Series());
+				 System::Windows::Forms::DataVisualization::Charting::Series^  series8 = (gcnew System::Windows::Forms::DataVisualization::Charting::Series());
+				 System::Windows::Forms::DataVisualization::Charting::Series^  series9 = (gcnew System::Windows::Forms::DataVisualization::Charting::Series());
+				 System::Windows::Forms::DataVisualization::Charting::Series^  series10 = (gcnew System::Windows::Forms::DataVisualization::Charting::Series());
+				 System::Windows::Forms::DataVisualization::Charting::Series^  series11 = (gcnew System::Windows::Forms::DataVisualization::Charting::Series());
+				 System::Windows::Forms::DataVisualization::Charting::Series^  series12 = (gcnew System::Windows::Forms::DataVisualization::Charting::Series());
 				 this->tabControl1 = (gcnew System::Windows::Forms::TabControl());
 				 this->tabPage1 = (gcnew System::Windows::Forms::TabPage());
+				 this->Btn_UpDateFileName = (gcnew System::Windows::Forms::Button());
 				 this->label7 = (gcnew System::Windows::Forms::Label());
 				 this->chart1 = (gcnew System::Windows::Forms::DataVisualization::Charting::Chart());
 				 this->Tx_CarSpeed = (gcnew System::Windows::Forms::Label());
@@ -235,7 +243,6 @@ private: System::Windows::Forms::Timer^  timer2;
 				 this->cBox_Radar = (gcnew System::Windows::Forms::ComboBox());
 				 this->Btn_Refresh_Combox = (gcnew System::Windows::Forms::Button());
 				 this->groupBox8 = (gcnew System::Windows::Forms::GroupBox());
-				 this->Btn_UpDateSetting = (gcnew System::Windows::Forms::Button());
 				 this->groupBox10 = (gcnew System::Windows::Forms::GroupBox());
 				 this->label23 = (gcnew System::Windows::Forms::Label());
 				 this->label24 = (gcnew System::Windows::Forms::Label());
@@ -264,6 +271,9 @@ private: System::Windows::Forms::Timer^  timer2;
 				 this->Btn_RadarAngle_Connect = (gcnew System::Windows::Forms::Button());
 				 this->cBox_Radar_Angle = (gcnew System::Windows::Forms::ComboBox());
 				 this->groupBox9 = (gcnew System::Windows::Forms::GroupBox());
+				 this->Btn_UpDateSetting = (gcnew System::Windows::Forms::Button());
+				 this->cBox_LIDAR_Mode = (gcnew System::Windows::Forms::ComboBox());
+				 this->label1 = (gcnew System::Windows::Forms::Label());
 				 this->label21 = (gcnew System::Windows::Forms::Label());
 				 this->cBox_LiDAR = (gcnew System::Windows::Forms::ComboBox());
 				 this->label22 = (gcnew System::Windows::Forms::Label());
@@ -291,6 +301,7 @@ private: System::Windows::Forms::Timer^  timer2;
 				 this->label3 = (gcnew System::Windows::Forms::Label());
 				 this->label6 = (gcnew System::Windows::Forms::Label());
 				 this->tabPage8 = (gcnew System::Windows::Forms::TabPage());
+				 this->Tx_CarSpeed2 = (gcnew System::Windows::Forms::Label());
 				 this->Btn_PlayPause = (gcnew System::Windows::Forms::Button());
 				 this->pictureBox2 = (gcnew System::Windows::Forms::PictureBox());
 				 this->chart2 = (gcnew System::Windows::Forms::DataVisualization::Charting::Chart());
@@ -334,7 +345,7 @@ private: System::Windows::Forms::Timer^  timer2;
 				 this->tabControl1->Controls->Add(this->tabPage8);
 				 this->tabControl1->Font = (gcnew System::Drawing::Font(L"新細明體", 9, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 					 static_cast<System::Byte>(136)));
-				 this->tabControl1->Location = System::Drawing::Point(0, 0);
+				 this->tabControl1->Location = System::Drawing::Point(12, -1);
 				 this->tabControl1->Name = L"tabControl1";
 				 this->tabControl1->SelectedIndex = 0;
 				 this->tabControl1->Size = System::Drawing::Size(1890, 950);
@@ -343,6 +354,7 @@ private: System::Windows::Forms::Timer^  timer2;
 				 // tabPage1
 				 // 
 				 this->tabPage1->BackColor = System::Drawing::Color::Transparent;
+				 this->tabPage1->Controls->Add(this->Btn_UpDateFileName);
 				 this->tabPage1->Controls->Add(this->label7);
 				 this->tabPage1->Controls->Add(this->chart1);
 				 this->tabPage1->Controls->Add(this->Tx_CarSpeed);
@@ -356,6 +368,16 @@ private: System::Windows::Forms::Timer^  timer2;
 				 this->tabPage1->TabIndex = 0;
 				 this->tabPage1->Text = L"數據";
 				 // 
+				 // Btn_UpDateFileName
+				 // 
+				 this->Btn_UpDateFileName->Location = System::Drawing::Point(1410, 526);
+				 this->Btn_UpDateFileName->Name = L"Btn_UpDateFileName";
+				 this->Btn_UpDateFileName->Size = System::Drawing::Size(75, 23);
+				 this->Btn_UpDateFileName->TabIndex = 12;
+				 this->Btn_UpDateFileName->Text = L"button1";
+				 this->Btn_UpDateFileName->UseVisualStyleBackColor = true;
+				 this->Btn_UpDateFileName->Click += gcnew System::EventHandler(this, &MyForm::Btn_UpDateFileName_Click);
+				 // 
 				 // label7
 				 // 
 				 this->label7->AutoSize = true;
@@ -367,66 +389,66 @@ private: System::Windows::Forms::Timer^  timer2;
 				 // 
 				 // chart1
 				 // 
-				 chartArea4->AxisX->Interval = 100;
-				 chartArea4->AxisX->Maximum = 1000;
-				 chartArea4->AxisX->Minimum = -1000;
-				 chartArea4->AxisY->Interval = 100;
-				 chartArea4->AxisY->Maximum = 6000;
-				 chartArea4->AxisY->Minimum = 0;
-				 chartArea4->Name = L"ChartArea1";
-				 this->chart1->ChartAreas->Add(chartArea4);
-				 legend4->Name = L"Legend1";
-				 this->chart1->Legends->Add(legend4);
+				 chartArea1->AxisX->Interval = 100;
+				 chartArea1->AxisX->Maximum = 1000;
+				 chartArea1->AxisX->Minimum = -1000;
+				 chartArea1->AxisY->Interval = 100;
+				 chartArea1->AxisY->Maximum = 6000;
+				 chartArea1->AxisY->Minimum = 0;
+				 chartArea1->Name = L"ChartArea1";
+				 this->chart1->ChartAreas->Add(chartArea1);
+				 legend1->Name = L"Legend1";
+				 this->chart1->Legends->Add(legend1);
 				 this->chart1->Location = System::Drawing::Point(-42, -10);
 				 this->chart1->Name = L"chart1";
-				 series19->ChartArea = L"ChartArea1";
-				 series19->ChartType = System::Windows::Forms::DataVisualization::Charting::SeriesChartType::Point;
-				 series19->Color = System::Drawing::Color::Khaki;
-				 series19->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 18, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+				 series1->ChartArea = L"ChartArea1";
+				 series1->ChartType = System::Windows::Forms::DataVisualization::Charting::SeriesChartType::Point;
+				 series1->Color = System::Drawing::Color::Khaki;
+				 series1->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 18, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 					 static_cast<System::Byte>(0)));
-				 series19->LabelForeColor = System::Drawing::Color::YellowGreen;
-				 series19->Legend = L"Legend1";
-				 series19->Name = L"Series_LiDAR";
-				 series20->ChartArea = L"ChartArea1";
-				 series20->ChartType = System::Windows::Forms::DataVisualization::Charting::SeriesChartType::Point;
-				 series20->Color = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(0)), static_cast<System::Int32>(static_cast<System::Byte>(0)),
+				 series1->LabelForeColor = System::Drawing::Color::YellowGreen;
+				 series1->Legend = L"Legend1";
+				 series1->Name = L"Series_LiDAR";
+				 series2->ChartArea = L"ChartArea1";
+				 series2->ChartType = System::Windows::Forms::DataVisualization::Charting::SeriesChartType::Point;
+				 series2->Color = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(0)), static_cast<System::Int32>(static_cast<System::Byte>(0)),
 					 static_cast<System::Int32>(static_cast<System::Byte>(192)));
-				 series20->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 14.25F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+				 series2->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 14.25F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 					 static_cast<System::Byte>(0)));
-				 series20->Legend = L"Legend1";
-				 series20->MarkerColor = System::Drawing::Color::Blue;
-				 series20->MarkerSize = 10;
-				 series20->Name = L"Series_LiDAR_CLOSE";
-				 series21->ChartArea = L"ChartArea1";
-				 series21->ChartType = System::Windows::Forms::DataVisualization::Charting::SeriesChartType::FastPoint;
-				 series21->Color = System::Drawing::Color::ForestGreen;
-				 series21->Legend = L"Legend1";
-				 series21->MarkerSize = 10;
-				 series21->Name = L"Series_Radar_Angle";
-				 series22->ChartArea = L"ChartArea1";
-				 series22->ChartType = System::Windows::Forms::DataVisualization::Charting::SeriesChartType::Point;
-				 series22->Legend = L"Legend1";
-				 series22->MarkerColor = System::Drawing::SystemColors::MenuHighlight;
-				 series22->MarkerSize = 10;
-				 series22->MarkerStyle = System::Windows::Forms::DataVisualization::Charting::MarkerStyle::Star4;
-				 series22->Name = L"Series_TBox_LRadar";
-				 series23->ChartArea = L"ChartArea1";
-				 series23->ChartType = System::Windows::Forms::DataVisualization::Charting::SeriesChartType::Point;
-				 series23->Color = System::Drawing::Color::Black;
-				 series23->Legend = L"Legend1";
-				 series23->MarkerSize = 10;
-				 series23->Name = L"Series_TBox_RRadar";
-				 series24->ChartArea = L"ChartArea1";
-				 series24->ChartType = System::Windows::Forms::DataVisualization::Charting::SeriesChartType::Point;
-				 series24->Legend = L"Legend1";
-				 series24->MarkerSize = 10;
-				 series24->Name = L"Series_RadarDetectArea";
-				 this->chart1->Series->Add(series19);
-				 this->chart1->Series->Add(series20);
-				 this->chart1->Series->Add(series21);
-				 this->chart1->Series->Add(series22);
-				 this->chart1->Series->Add(series23);
-				 this->chart1->Series->Add(series24);
+				 series2->Legend = L"Legend1";
+				 series2->MarkerColor = System::Drawing::Color::Blue;
+				 series2->MarkerSize = 10;
+				 series2->Name = L"Series_LiDAR_CLOSE";
+				 series3->ChartArea = L"ChartArea1";
+				 series3->ChartType = System::Windows::Forms::DataVisualization::Charting::SeriesChartType::FastPoint;
+				 series3->Color = System::Drawing::Color::ForestGreen;
+				 series3->Legend = L"Legend1";
+				 series3->MarkerSize = 10;
+				 series3->Name = L"Series_Radar_Angle";
+				 series4->ChartArea = L"ChartArea1";
+				 series4->ChartType = System::Windows::Forms::DataVisualization::Charting::SeriesChartType::Point;
+				 series4->Legend = L"Legend1";
+				 series4->MarkerColor = System::Drawing::SystemColors::MenuHighlight;
+				 series4->MarkerSize = 10;
+				 series4->MarkerStyle = System::Windows::Forms::DataVisualization::Charting::MarkerStyle::Star4;
+				 series4->Name = L"Series_TBox_LRadar";
+				 series5->ChartArea = L"ChartArea1";
+				 series5->ChartType = System::Windows::Forms::DataVisualization::Charting::SeriesChartType::Point;
+				 series5->Color = System::Drawing::Color::Black;
+				 series5->Legend = L"Legend1";
+				 series5->MarkerSize = 10;
+				 series5->Name = L"Series_TBox_RRadar";
+				 series6->ChartArea = L"ChartArea1";
+				 series6->ChartType = System::Windows::Forms::DataVisualization::Charting::SeriesChartType::Point;
+				 series6->Legend = L"Legend1";
+				 series6->MarkerSize = 10;
+				 series6->Name = L"Series_RadarDetectArea";
+				 this->chart1->Series->Add(series1);
+				 this->chart1->Series->Add(series2);
+				 this->chart1->Series->Add(series3);
+				 this->chart1->Series->Add(series4);
+				 this->chart1->Series->Add(series5);
+				 this->chart1->Series->Add(series6);
 				 this->chart1->Size = System::Drawing::Size(1389, 977);
 				 this->chart1->TabIndex = 10;
 				 this->chart1->Text = L"圖";
@@ -575,7 +597,6 @@ private: System::Windows::Forms::Timer^  timer2;
 				 // 
 				 // groupBox8
 				 // 
-				 this->groupBox8->Controls->Add(this->Btn_UpDateSetting);
 				 this->groupBox8->Controls->Add(this->groupBox10);
 				 this->groupBox8->Controls->Add(this->Btn_Send_RadarAngle_Cmd);
 				 this->groupBox8->Controls->Add(this->button6);
@@ -590,16 +611,6 @@ private: System::Windows::Forms::Timer^  timer2;
 				 this->groupBox8->TabIndex = 11;
 				 this->groupBox8->TabStop = false;
 				 this->groupBox8->Text = L"Radar_Angle";
-				 // 
-				 // Btn_UpDateSetting
-				 // 
-				 this->Btn_UpDateSetting->Location = System::Drawing::Point(269, 123);
-				 this->Btn_UpDateSetting->Name = L"Btn_UpDateSetting";
-				 this->Btn_UpDateSetting->Size = System::Drawing::Size(75, 23);
-				 this->Btn_UpDateSetting->TabIndex = 17;
-				 this->Btn_UpDateSetting->Text = L"更新設定值";
-				 this->Btn_UpDateSetting->UseVisualStyleBackColor = true;
-				 this->Btn_UpDateSetting->Click += gcnew System::EventHandler(this, &MyForm::Btn_UpDateSetting_Click);
 				 // 
 				 // groupBox10
 				 // 
@@ -869,6 +880,9 @@ private: System::Windows::Forms::Timer^  timer2;
 				 // 
 				 // groupBox9
 				 // 
+				 this->groupBox9->Controls->Add(this->Btn_UpDateSetting);
+				 this->groupBox9->Controls->Add(this->cBox_LIDAR_Mode);
+				 this->groupBox9->Controls->Add(this->label1);
 				 this->groupBox9->Controls->Add(this->label21);
 				 this->groupBox9->Controls->Add(this->cBox_LiDAR);
 				 this->groupBox9->Controls->Add(this->label22);
@@ -881,6 +895,34 @@ private: System::Windows::Forms::Timer^  timer2;
 				 this->groupBox9->TabIndex = 10;
 				 this->groupBox9->TabStop = false;
 				 this->groupBox9->Text = L"LiDAR";
+				 // 
+				 // Btn_UpDateSetting
+				 // 
+				 this->Btn_UpDateSetting->Location = System::Drawing::Point(157, 120);
+				 this->Btn_UpDateSetting->Name = L"Btn_UpDateSetting";
+				 this->Btn_UpDateSetting->Size = System::Drawing::Size(75, 23);
+				 this->Btn_UpDateSetting->TabIndex = 17;
+				 this->Btn_UpDateSetting->Text = L"更新設定值";
+				 this->Btn_UpDateSetting->UseVisualStyleBackColor = true;
+				 this->Btn_UpDateSetting->Click += gcnew System::EventHandler(this, &MyForm::Btn_UpDateSetting_Click);
+				 // 
+				 // cBox_LIDAR_Mode
+				 // 
+				 this->cBox_LIDAR_Mode->FormattingEnabled = true;
+				 this->cBox_LIDAR_Mode->Location = System::Drawing::Point(29, 57);
+				 this->cBox_LIDAR_Mode->Name = L"cBox_LIDAR_Mode";
+				 this->cBox_LIDAR_Mode->Size = System::Drawing::Size(121, 20);
+				 this->cBox_LIDAR_Mode->TabIndex = 16;
+				 this->cBox_LIDAR_Mode->SelectedIndexChanged += gcnew System::EventHandler(this, &MyForm::cBox_LIDAR_Mode_SelectedIndexChanged);
+				 // 
+				 // label1
+				 // 
+				 this->label1->AutoSize = true;
+				 this->label1->Location = System::Drawing::Point(27, 22);
+				 this->label1->Name = L"label1";
+				 this->label1->Size = System::Drawing::Size(29, 12);
+				 this->label1->TabIndex = 15;
+				 this->label1->Text = L"Com:";
 				 // 
 				 // label21
 				 // 
@@ -895,7 +937,7 @@ private: System::Windows::Forms::Timer^  timer2;
 				 // cBox_LiDAR
 				 // 
 				 this->cBox_LiDAR->FormattingEnabled = true;
-				 this->cBox_LiDAR->Location = System::Drawing::Point(6, 47);
+				 this->cBox_LiDAR->Location = System::Drawing::Point(62, 17);
 				 this->cBox_LiDAR->Name = L"cBox_LiDAR";
 				 this->cBox_LiDAR->Size = System::Drawing::Size(87, 20);
 				 this->cBox_LiDAR->TabIndex = 0;
@@ -921,7 +963,7 @@ private: System::Windows::Forms::Timer^  timer2;
 				 // 
 				 // Btn_LiDARCnt
 				 // 
-				 this->Btn_LiDARCnt->Location = System::Drawing::Point(101, 21);
+				 this->Btn_LiDARCnt->Location = System::Drawing::Point(157, 17);
 				 this->Btn_LiDARCnt->Name = L"Btn_LiDARCnt";
 				 this->Btn_LiDARCnt->Size = System::Drawing::Size(75, 23);
 				 this->Btn_LiDARCnt->TabIndex = 5;
@@ -931,7 +973,7 @@ private: System::Windows::Forms::Timer^  timer2;
 				 // 
 				 // Btn_LiDARClose
 				 // 
-				 this->Btn_LiDARClose->Location = System::Drawing::Point(101, 61);
+				 this->Btn_LiDARClose->Location = System::Drawing::Point(157, 57);
 				 this->Btn_LiDARClose->Name = L"Btn_LiDARClose";
 				 this->Btn_LiDARClose->Size = System::Drawing::Size(75, 23);
 				 this->Btn_LiDARClose->TabIndex = 6;
@@ -1121,6 +1163,7 @@ private: System::Windows::Forms::Timer^  timer2;
 				 // 
 				 // tabPage8
 				 // 
+				 this->tabPage8->Controls->Add(this->Tx_CarSpeed2);
 				 this->tabPage8->Controls->Add(this->Btn_PlayPause);
 				 this->tabPage8->Controls->Add(this->pictureBox2);
 				 this->tabPage8->Controls->Add(this->chart2);
@@ -1130,6 +1173,15 @@ private: System::Windows::Forms::Timer^  timer2;
 				 this->tabPage8->TabIndex = 2;
 				 this->tabPage8->Text = L"回放";
 				 this->tabPage8->UseVisualStyleBackColor = true;
+				 // 
+				 // Tx_CarSpeed2
+				 // 
+				 this->Tx_CarSpeed2->AutoSize = true;
+				 this->Tx_CarSpeed2->Location = System::Drawing::Point(1346, 453);
+				 this->Tx_CarSpeed2->Name = L"Tx_CarSpeed2";
+				 this->Tx_CarSpeed2->Size = System::Drawing::Size(33, 12);
+				 this->Tx_CarSpeed2->TabIndex = 14;
+				 this->Tx_CarSpeed2->Text = L"label1";
 				 // 
 				 // Btn_PlayPause
 				 // 
@@ -1151,66 +1203,66 @@ private: System::Windows::Forms::Timer^  timer2;
 				 // 
 				 // chart2
 				 // 
-				 chartArea3->AxisX->Interval = 100;
-				 chartArea3->AxisX->Maximum = 1000;
-				 chartArea3->AxisX->Minimum = -1000;
-				 chartArea3->AxisY->Interval = 100;
-				 chartArea3->AxisY->Maximum = 6000;
-				 chartArea3->AxisY->Minimum = 0;
-				 chartArea3->Name = L"ChartArea1";
-				 this->chart2->ChartAreas->Add(chartArea3);
-				 legend3->Name = L"Legend1";
-				 this->chart2->Legends->Add(legend3);
+				 chartArea2->AxisX->Interval = 100;
+				 chartArea2->AxisX->Maximum = 1000;
+				 chartArea2->AxisX->Minimum = -1000;
+				 chartArea2->AxisY->Interval = 100;
+				 chartArea2->AxisY->Maximum = 6000;
+				 chartArea2->AxisY->Minimum = 0;
+				 chartArea2->Name = L"ChartArea1";
+				 this->chart2->ChartAreas->Add(chartArea2);
+				 legend2->Name = L"Legend1";
+				 this->chart2->Legends->Add(legend2);
 				 this->chart2->Location = System::Drawing::Point(-61, -10);
 				 this->chart2->Name = L"chart2";
-				 series13->ChartArea = L"ChartArea1";
-				 series13->ChartType = System::Windows::Forms::DataVisualization::Charting::SeriesChartType::Point;
-				 series13->Color = System::Drawing::Color::Khaki;
-				 series13->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 18, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+				 series7->ChartArea = L"ChartArea1";
+				 series7->ChartType = System::Windows::Forms::DataVisualization::Charting::SeriesChartType::Point;
+				 series7->Color = System::Drawing::Color::Khaki;
+				 series7->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 18, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 					 static_cast<System::Byte>(0)));
-				 series13->LabelForeColor = System::Drawing::Color::YellowGreen;
-				 series13->Legend = L"Legend1";
-				 series13->Name = L"Series_LiDAR";
-				 series14->ChartArea = L"ChartArea1";
-				 series14->ChartType = System::Windows::Forms::DataVisualization::Charting::SeriesChartType::Point;
-				 series14->Color = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(0)), static_cast<System::Int32>(static_cast<System::Byte>(0)),
+				 series7->LabelForeColor = System::Drawing::Color::YellowGreen;
+				 series7->Legend = L"Legend1";
+				 series7->Name = L"Series_LiDAR";
+				 series8->ChartArea = L"ChartArea1";
+				 series8->ChartType = System::Windows::Forms::DataVisualization::Charting::SeriesChartType::Point;
+				 series8->Color = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(0)), static_cast<System::Int32>(static_cast<System::Byte>(0)),
 					 static_cast<System::Int32>(static_cast<System::Byte>(192)));
-				 series14->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 14.25F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+				 series8->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 14.25F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 					 static_cast<System::Byte>(0)));
-				 series14->Legend = L"Legend1";
-				 series14->MarkerColor = System::Drawing::Color::Blue;
-				 series14->MarkerSize = 10;
-				 series14->Name = L"Series_LiDAR_CLOSE";
-				 series15->ChartArea = L"ChartArea1";
-				 series15->ChartType = System::Windows::Forms::DataVisualization::Charting::SeriesChartType::FastPoint;
-				 series15->Color = System::Drawing::Color::ForestGreen;
-				 series15->Legend = L"Legend1";
-				 series15->MarkerSize = 10;
-				 series15->Name = L"Series_Radar_Angle";
-				 series16->ChartArea = L"ChartArea1";
-				 series16->ChartType = System::Windows::Forms::DataVisualization::Charting::SeriesChartType::Point;
-				 series16->Legend = L"Legend1";
-				 series16->MarkerColor = System::Drawing::SystemColors::MenuHighlight;
-				 series16->MarkerSize = 10;
-				 series16->MarkerStyle = System::Windows::Forms::DataVisualization::Charting::MarkerStyle::Star4;
-				 series16->Name = L"Series_TBox_LRadar";
-				 series17->ChartArea = L"ChartArea1";
-				 series17->ChartType = System::Windows::Forms::DataVisualization::Charting::SeriesChartType::Point;
-				 series17->Color = System::Drawing::Color::Black;
-				 series17->Legend = L"Legend1";
-				 series17->MarkerSize = 10;
-				 series17->Name = L"Series_TBox_RRadar";
-				 series18->ChartArea = L"ChartArea1";
-				 series18->ChartType = System::Windows::Forms::DataVisualization::Charting::SeriesChartType::Point;
-				 series18->Legend = L"Legend1";
-				 series18->MarkerSize = 10;
-				 series18->Name = L"Series_RadarDetectArea";
-				 this->chart2->Series->Add(series13);
-				 this->chart2->Series->Add(series14);
-				 this->chart2->Series->Add(series15);
-				 this->chart2->Series->Add(series16);
-				 this->chart2->Series->Add(series17);
-				 this->chart2->Series->Add(series18);
+				 series8->Legend = L"Legend1";
+				 series8->MarkerColor = System::Drawing::Color::Blue;
+				 series8->MarkerSize = 10;
+				 series8->Name = L"Series_LiDAR_CLOSE";
+				 series9->ChartArea = L"ChartArea1";
+				 series9->ChartType = System::Windows::Forms::DataVisualization::Charting::SeriesChartType::FastPoint;
+				 series9->Color = System::Drawing::Color::ForestGreen;
+				 series9->Legend = L"Legend1";
+				 series9->MarkerSize = 10;
+				 series9->Name = L"Series_Radar_Angle";
+				 series10->ChartArea = L"ChartArea1";
+				 series10->ChartType = System::Windows::Forms::DataVisualization::Charting::SeriesChartType::Point;
+				 series10->Legend = L"Legend1";
+				 series10->MarkerColor = System::Drawing::SystemColors::MenuHighlight;
+				 series10->MarkerSize = 10;
+				 series10->MarkerStyle = System::Windows::Forms::DataVisualization::Charting::MarkerStyle::Star4;
+				 series10->Name = L"Series_TBox_LRadar";
+				 series11->ChartArea = L"ChartArea1";
+				 series11->ChartType = System::Windows::Forms::DataVisualization::Charting::SeriesChartType::Point;
+				 series11->Color = System::Drawing::Color::Black;
+				 series11->Legend = L"Legend1";
+				 series11->MarkerSize = 10;
+				 series11->Name = L"Series_TBox_RRadar";
+				 series12->ChartArea = L"ChartArea1";
+				 series12->ChartType = System::Windows::Forms::DataVisualization::Charting::SeriesChartType::Point;
+				 series12->Legend = L"Legend1";
+				 series12->MarkerSize = 10;
+				 series12->Name = L"Series_RadarDetectArea";
+				 this->chart2->Series->Add(series7);
+				 this->chart2->Series->Add(series8);
+				 this->chart2->Series->Add(series9);
+				 this->chart2->Series->Add(series10);
+				 this->chart2->Series->Add(series11);
+				 this->chart2->Series->Add(series12);
 				 this->chart2->Size = System::Drawing::Size(1389, 977);
 				 this->chart2->TabIndex = 11;
 				 this->chart2->Text = L"圖";
@@ -1277,13 +1329,13 @@ private: System::Windows::Forms::Timer^  timer2;
 				 this->tabPage7->ResumeLayout(false);
 				 (cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->dataGridView3))->EndInit();
 				 this->tabPage8->ResumeLayout(false);
+				 this->tabPage8->PerformLayout();
 				 (cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pictureBox2))->EndInit();
 				 (cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->chart2))->EndInit();
 				 this->ResumeLayout(false);
 
 			 }
 #pragma endregion
-
 	private:System::String^ getRadarMode(int index)
 	{
 		switch (index)
@@ -1334,47 +1386,10 @@ private: System::Windows::Forms::Timer^  timer2;
 		videoWrite.open(str, CV_FOURCC('M', 'J', 'P', 'G'), 30, cv::Size(640, 480));
 		fstream fp_ComID;
 		fp_ComID.open("ComRecord.txt", ios::out);
-		fp_ComID << ComPortNoRecord[0] << " " << ComPortNoRecord[1] <<" "<< ComPortNoRecord[2] << endl;
+		fp_ComID << ComPortNoRecord[0] << " " << ComPortNoRecord[1] << " " << ComPortNoRecord[2] << endl;
 		fp_ComID.close();
 	}
 
-	private: System::Void Btn_LiDARCnt_Click(System::Object^  sender, System::EventArgs^  e) {
-		if (serialPort_LiDAR->IsOpen)serialPort_LiDAR->Close();
-		serialPort_LiDAR->PortName = cBox_LiDAR->Text;
-		serialPort_LiDAR->Encoding = System::Text::Encoding::GetEncoding(28591);
-		serialPort_LiDAR->BaudRate = 9600;
-		serialPort_LiDAR->DataBits = 8;
-		serialPort_LiDAR->StopBits = StopBits::One;
-		serialPort_LiDAR->Parity = Parity::None;
-		serialPort_LiDAR->Open();
-
-		cli::array<System::Byte>^ LMS_Angular_range_change_manage = gcnew cli::array<Byte>{ 0x02, 0x00, 0x05, 0x00, 0x3B, 0xB4, 0x00, 0x32, 0x00, 0x3B, 0x1F };//更改LMS經度0.5度
-		cli::array<System::Byte>^ continuous_LMS_data_manage = gcnew cli::array<Byte>{ 0x02, 0x00, 0x02, 0x00, 0x20, 0x24, 0x34, 0x08 };//更改成連續指令緩區
-		cli::array<System::Byte>^ LMS_baundrate_500k_manage = gcnew cli::array<Byte>{ 0x02, 0x00, 0x02, 0x00, 0x20, 0x48, 0x58, 0x08 };//更改包率
-
-		if (serialPort_LiDAR->IsOpen)
-		{
-			serialPort_LiDAR->Write(LMS_baundrate_500k_manage, 0, 8);
-			Sleep(500);
-			serialPort_LiDAR->Close();
-			serialPort_LiDAR->BaudRate = 500000;
-			serialPort_LiDAR->Open();
-		}
-		if (serialPort_LiDAR->IsOpen)
-		{
-			serialPort_LiDAR->Write(LMS_Angular_range_change_manage, 0, 11);
-			_sleep(500);
-			serialPort_LiDAR->Write(continuous_LMS_data_manage, 0, 8);
-		}
-
-		ComPortNoRecord[0] = Convert::ToInt16(cBox_LiDAR->Text->Remove(0, 3));
-		t1 = clock();
-
-		fstream fp_ComID;
-		fp_ComID.open("ComRecord.txt", ios::out);
-		fp_ComID << ComPortNoRecord[0] << " " << ComPortNoRecord[1]<<" "<< ComPortNoRecord[2] << endl;
-		fp_ComID.close();
-	}
 	private: System::Void serialPort_LiDAR_DataReceived(System::Object^  sender, System::IO::Ports::SerialDataReceivedEventArgs^  e) {
 		cli::array<System::Byte>^ LiDAR_SerialPortData = gcnew cli::array<Byte>(10000);
 		int ReadSize = serialPort_LiDAR->Read(LiDAR_SerialPortData, 0, 10000);
@@ -1422,18 +1437,40 @@ private: System::Windows::Forms::Timer^  timer2;
 			counter = 0;
 		}
 	}
-	private: System::Void timer1_Tick(System::Object^  sender, System::EventArgs^  e) {
-		if (Datalength == 1000) {
-			Datalength = 0;
-			char timeNow[30] = { 0 };
-			uint currnetTime = System::DateTime::Now.Minute * 10000 + System::DateTime::Now.Second * 100 + System::DateTime::Now.Millisecond;
-			sprintf(timeNow, "%d", currnetTime);
-			FileNameTime = (string)"RecordData" + (string)timeNow;
-			std::string str = (string)"mkdir " + FileNameTime;
-			system(str.c_str());
-			str = FileNameTime + (string)"\\VideoTest.avi";
-			videoWrite.open(str, CV_FOURCC('M', 'J', 'P', 'G'), 30, cv::Size(640, 480));
+	private: System::Void Btn_LiDARCnt_Click(System::Object^  sender, System::EventArgs^  e) {
+		if (serialPort_LiDAR->IsOpen)serialPort_LiDAR->Close();
+
+		serialPort_LiDAR->PortName = cBox_LiDAR->Text;
+		serialPort_LiDAR->Encoding = System::Text::Encoding::GetEncoding(28591);
+		serialPort_LiDAR->BaudRate = 9600;
+		serialPort_LiDAR->DataBits = 8;
+		serialPort_LiDAR->StopBits = StopBits::One;
+		serialPort_LiDAR->Parity = Parity::None;
+		serialPort_LiDAR->Open();
+
+		cli::array<System::Byte>^ LMS_Angular_range_change_manage = gcnew cli::array<Byte>{ 0x02, 0x00, 0x05, 0x00, 0x3B, 0xB4, 0x00, 0x32, 0x00, 0x3B, 0x1F };//更改LMS經度0.5度
+		cli::array<System::Byte>^ continuous_LMS_data_manage = gcnew cli::array<Byte>{ 0x02, 0x00, 0x02, 0x00, 0x20, 0x24, 0x34, 0x08 };//更改成連續指令緩區
+		cli::array<System::Byte>^ LMS_baundrate_500k_manage = gcnew cli::array<Byte>{ 0x02, 0x00, 0x02, 0x00, 0x20, 0x48, 0x58, 0x08 };//更改包率
+
+		if (serialPort_LiDAR->IsOpen)
+		{
+			serialPort_LiDAR->Write(LMS_baundrate_500k_manage, 0, 8);
+			Sleep(500);
+			serialPort_LiDAR->Close();
+			serialPort_LiDAR->BaudRate = 500000;
+			serialPort_LiDAR->Open();
 		}
+		if (serialPort_LiDAR->IsOpen)
+		{
+			serialPort_LiDAR->Write(LMS_Angular_range_change_manage, 0, 11);
+			_sleep(500);
+			serialPort_LiDAR->Write(continuous_LMS_data_manage, 0, 8);
+		}
+
+
+	}
+	private: System::Void timer1_Tick(System::Object^  sender, System::EventArgs^  e) {
+		
 		if (cap.isOpened())
 		{
 			Mat frame1;
@@ -1457,19 +1494,19 @@ private: System::Windows::Forms::Timer^  timer2;
 			vector<Pt>LIDAR_cooridate;
 			LIDAR_cooridate.resize(0);
 			LIDAR_cooridate.resize(361);
-			fstream fp_Lidar; fp_Lidar.open(".\\" + FileNameTime + "\\Lidar.txt",ios::out | ios::app);
-			
+			fstream fp_Lidar; fp_Lidar.open(".\\" + FileNameTime + "\\Lidar.txt", ios::out | ios::app);
+
 			for (uint i = 0; i < 361; i++)
 			{
 				LIDAR_cooridate[i] = Pt(LIDAR_X_cooridate[i], LIDAR_Y_cooridate[i]);
-				LIDAR_cooridate[i].range=LIDAR_R_cooridate[i];
-				fp_Lidar << LIDAR_R_cooridate[i]<< " ";
+				LIDAR_cooridate[i].range = LIDAR_R_cooridate[i];
+				fp_Lidar << LIDAR_R_cooridate[i] << " ";
 			}
-			fp_Lidar <<t1<<" "<<TBox.currentSpeed<<endl;
+			fp_Lidar << t1 << " " << TBox.currentSpeed << endl;
 			fp_Lidar.close();
 			vector<int >lab;
-			int nObj = partition(LIDAR_cooridate, lab);
-			vector<vector<Pt>> Pt_ClusterList_new = Cluster2List(LIDAR_cooridate, lab, nObj, 5);
+			int nObj = DBSCAN(LIDAR_cooridate, 100.0,2);
+			vector<vector<Pt>> Pt_ClusterList_new = Cluster2List(LIDAR_cooridate, nObj);
 			Pt_newClusterRefPt.resize(Pt_ClusterList_new.size());
 			int index = 0;
 			for (uint16_t i = 0; i < Pt_ClusterList_new.size(); i++)
@@ -1495,14 +1532,17 @@ private: System::Windows::Forms::Timer^  timer2;
 					index++;
 				}
 				Pt_newClusterRefPt[i] = min;
-
 			}
-			if (Pt_oldClusterRefPoint.size() == 0)Pt_oldClusterRefPoint.resize(Pt_newClusterRefPt.size());
-
+			if (Pt_oldClusterRefPoint.size() == 0) {
+				for (uint i = 0; i < Pt_newClusterRefPt.size(); i++)
+					Pt_newClusterRefPt[i].KF_initial();
+				Pt_oldClusterRefPoint = Pt_newClusterRefPt;
+				return;
+			}
 			time_t t2 = clock();
 			float time = (float)(t2 - t1) / CLK_TCK;
 			t1 = t2;
-			FindClosePoint(Pt_newClusterRefPt, Pt_oldClusterRefPoint, time);
+			FindClosePoint(Pt_newClusterRefPt, Pt_oldClusterRefPoint, time, CurrentSpeed);
 			for (uint i = 0; i < Pt_newClusterRefPt.size(); i++)
 			{
 				chart1->Series[1]->Points->AddXY(Pt_newClusterRefPt[i].x, Pt_newClusterRefPt[i].y);
@@ -1539,7 +1579,7 @@ private: System::Windows::Forms::Timer^  timer2;
 		if (serialPort_Tbox->IsOpen)
 		{
 
-			if (abs(f_model_changed - TBox.L_RADAR_Mode) > 0)
+			if (std::abs(f_model_changed - TBox.L_RADAR_Mode) > 0)
 			{
 				//
 				chart1->Series["Series_RadarDetectArea"]->Points->Clear();
@@ -1595,22 +1635,21 @@ private: System::Windows::Forms::Timer^  timer2;
 
 			fstream fp_TBox;
 			fp_TBox.open(".\\" + FileNameTime + "\\TBox.txt", ios::out | ios::app);
-			fp_TBox<< TBox.currentSpeed <<" "
-			       <<TBox.L_RADAR_Mode  <<" "
-			       <<TBox.L_RADAR_ALert <<" "
-			       <<TBox.L_RADAR_Range <<" "
-			       <<TBox.L_RADAR_Speed <<" "
-                   <<TBox.L_RADAR_Angle <<" "
-			       <<TBox.R_RADAR_Mode  <<" "
-			       <<TBox.R_RADAR_ALert <<" "
-			       <<TBox.R_RADAR_Range <<" "
-			       <<TBox.R_RADAR_Speed <<" "
-			       <<TBox.R_RADAR_Angle <<" "
-			    	<< System::DateTime::Now.Minute << " " << System::DateTime::Now.Second<< endl;
+			fp_TBox << TBox.currentSpeed << " "
+				<< TBox.L_RADAR_Mode << " "
+				<< TBox.L_RADAR_ALert << " "
+				<< TBox.L_RADAR_Range << " "
+				<< TBox.L_RADAR_Speed << " "
+				<< TBox.L_RADAR_Angle << " "
+				<< TBox.R_RADAR_Mode << " "
+				<< TBox.R_RADAR_ALert << " "
+				<< TBox.R_RADAR_Range << " "
+				<< TBox.R_RADAR_Speed << " "
+				<< TBox.R_RADAR_Angle << " "
+				<< System::DateTime::Now.Minute << " " << System::DateTime::Now.Second << endl;
 			fp_TBox.close();
-
 			tx_TBox_RAngle->Text = "R Range: " + TBox.R_RADAR_Range.ToString() + " R Angle: " + TBox.R_RADAR_Angle.ToString();
-			
+
 
 		}
 #pragma endregion
@@ -1631,7 +1670,6 @@ private: System::Windows::Forms::Timer^  timer2;
 			}
 		}
 #pragma endregion	
-		Datalength++;
 		chart1->Refresh();
 	}
 	public:void ShowImage(System::Windows::Forms::PictureBox^ PBox, cv::Mat Image)
@@ -1693,6 +1731,10 @@ private: System::Windows::Forms::Timer^  timer2;
 			{
 				chart1->Series["Series_RadarDetectArea"]->Points->AddXY(380, j);
 				chart1->Series["Series_RadarDetectArea"]->Points->AddXY(-380, j);
+
+
+				chart2->Series["Series_RadarDetectArea"]->Points->AddXY(380, j);
+				chart2->Series["Series_RadarDetectArea"]->Points->AddXY(-380, j);
 			}
 			for (int i = 0; i < 400; i += 100)
 			{
@@ -1700,6 +1742,12 @@ private: System::Windows::Forms::Timer^  timer2;
 				chart1->Series["Series_RadarDetectArea"]->Points->AddXY(-i, 400);
 				chart1->Series["Series_RadarDetectArea"]->Points->AddXY(i, 1200);
 				chart1->Series["Series_RadarDetectArea"]->Points->AddXY(-i, 1200);
+
+
+				chart2->Series["Series_RadarDetectArea"]->Points->AddXY(i, 400);
+				chart2->Series["Series_RadarDetectArea"]->Points->AddXY(-i, 400);
+				chart2->Series["Series_RadarDetectArea"]->Points->AddXY(i, 1200);
+				chart2->Series["Series_RadarDetectArea"]->Points->AddXY(-i, 1200);
 			}
 
 		}
@@ -1749,7 +1797,6 @@ private: System::Windows::Forms::Timer^  timer2;
 		serialPort_Radar->Open();
 	}
 	private: System::Void Btn_TboxCnt_Click(System::Object^  sender, System::EventArgs^  e) {
-
 		if (serialPort_Tbox->IsOpen)
 		{
 			serialPort_Tbox->Close();
@@ -1764,11 +1811,9 @@ private: System::Windows::Forms::Timer^  timer2;
 
 		ComPortNoRecord[1] = Convert::ToInt16(cBox_TBox->Text->Remove(0, 3));
 
-
-
 		fstream fp_ComID;
 		fp_ComID.open("ComRecord.txt", ios::out);
-		fp_ComID << ComPortNoRecord[0] << " " << ComPortNoRecord[1] <<" "<< ComPortNoRecord[2] << endl;
+		fp_ComID << ComPortNoRecord[0] << " " << ComPortNoRecord[1] << " " << ComPortNoRecord[2] << endl;
 		fp_ComID.close();
 	}
 
@@ -1778,33 +1823,22 @@ private: System::Windows::Forms::Timer^  timer2;
 		{
 		case 0x01:
 			if (abs(P.x) < 380 && P.y < 1200)//BSD
-			{
 				return true;
-			}
 			else
-			{
 				return false;
-			}
+
 			break;
 		case 0x02:
 			if (abs(P.x) < 200 && P.y < 100)//RCTA
-			{
 				return true;
-			}
 			else
-			{
 				return false;
-			}
 			break;
 		case 0x03:
 			if (abs(P.x) < 380 && P.y < 2000)//DOW
-			{
 				return true;
-			}
 			else
-			{
 				return false;
-			}
 			break;
 		}
 	}
@@ -1823,8 +1857,6 @@ private: System::Windows::Forms::Timer^  timer2;
 			}
 			if (Checksum == bTboxData[format - 1])
 			{
-
-
 				TBox.currentSpeed = bTboxData[9];
 				TBox.L_RADAR_Mode = bTboxData[14];
 				TBox.L_RADAR_ALert = bTboxData[15];
@@ -1836,6 +1868,7 @@ private: System::Windows::Forms::Timer^  timer2;
 				TBox.R_RADAR_Range = bTboxData[21];
 				TBox.R_RADAR_Speed = bTboxData[22] - 127;
 				TBox.R_RADAR_Angle = bTboxData[23] - 127;
+				CurrentSpeed = bTboxData[9];
 			}
 		}
 		if (serialPort_Tbox->BytesToRead >= format * 2)
@@ -1902,129 +1935,7 @@ private: System::Windows::Forms::Timer^  timer2;
 			this->lbBsdAngleT->Refresh();
 		}
 	}
-
-#pragma region 聚類
-	private:bool predicate(Pt P1, Pt P2)
-	{
-		double distant = Math::Sqrt(Math::Pow((P1.x - P2.x), 2) + Math::Pow((P1.y - P2.y), 2));
-		return  distant <= PartitionValue;
-	}
-	private:int partition(vector<Pt>& _vec, vector<int>& labels)
-	{
-		int i, j, N = _vec.size();
-		const Pt* vec = &_vec[0];
-
-		const int PARENT = 0;
-		const int RANK = 1;
-
-		vector<int> _nodes(N * 2);
-		int(*nodes)[2] = (int(*)[2])&_nodes[0];
-
-		for (i = 0; i < N; i++)
-		{
-			nodes[i][PARENT] = -1;
-			nodes[i][RANK] = 0;
-		}
-		for (i = 0; i < N; i++)
-		{
-			int root = i;
-
-			// find root
-			while (nodes[root][PARENT] >= 0)
-				root = nodes[root][PARENT];
-
-			for (j = 0; j < N; j++)
-			{
-				if (i == j || !predicate(vec[i], vec[j]))
-					continue;
-				int root2 = j;
-
-				while (nodes[root2][PARENT] >= 0)
-					root2 = nodes[root2][PARENT];
-
-				if (root2 != root)
-				{
-					// unite both trees
-					int rank = nodes[root][RANK], rank2 = nodes[root2][RANK];
-					if (rank > rank2)
-						nodes[root2][PARENT] = root;
-					else
-					{
-						nodes[root][PARENT] = root2;
-						nodes[root2][RANK] += rank == rank2;
-						root = root2;
-					}
-					//assert(nodes[root][PARENT] < 0);
-
-					int k = j, parent;
-
-					// compress the path from node2 to root
-					while ((parent = nodes[k][PARENT]) >= 0)
-					{
-						nodes[k][PARENT] = root;
-						k = parent;
-					}
-
-					// compress the path from node to root
-					k = i;
-					while ((parent = nodes[k][PARENT]) >= 0)
-					{
-						nodes[k][PARENT] = root;
-						k = parent;
-					}
-				}
-			}
-		}
-		for (unsigned int i = 0; i < N; i++)
-			labels.push_back(0);
-		int nclasses = 0;
-
-		for (i = 0; i < N; i++)
-		{
-			int root = i;
-			while (nodes[root][PARENT] >= 0)
-				root = nodes[root][PARENT];
-			if (nodes[root][RANK] >= 0)
-				nodes[root][RANK] = ~nclasses++;
-			labels[i] = ~nodes[root][RANK];
-		}
-		return nclasses;
-	}
-
-	private:void FindClosePoint(vector<Pt>&NewPoints, vector<Pt>&oldPoints, double timeInterval)
-	{
-		double Ylim = 90.0f*(1000.0f / 36.0f)*timeInterval;
-		double Xlim = 100 * timeInterval;
-		for (uint16_t i = 0; i < NewPoints.size(); i++)
-		{
-			double minDistant = 8000;
-			double distant;
-
-			uint oldPointIndex = 0;
-			for (uint16_t j = 0; j < oldPoints.size(); j++)
-			{
-				distant = sqrt(pow((NewPoints[i].x - oldPoints[j].x), 2) + pow((NewPoints[i].y - oldPoints[j].y), 2));
-				if ((distant < minDistant))
-				{
-					oldPointIndex = j;
-					minDistant = distant;
-				}
-			}
-			if (abs(NewPoints[i].x - oldPoints[oldPointIndex].x) < Xlim &&   abs(NewPoints[i].y - oldPoints[oldPointIndex].y) < Ylim)
-			{
-				NewPoints[i].velcity = minDistant / timeInterval;
-				if (NewPoints[i].y - oldPoints[oldPointIndex].y > 0)
-					NewPoints[i].velcity = -NewPoints[i].velcity;
-
-			}
-			else
-			{
-				NewPoints[i].velcity = 0;
-			}
-
-		}
-	}
-#pragma endregion
+	
 	private:void LoadData()
 	{
 		std::fstream fp;
@@ -2102,7 +2013,6 @@ private: System::Windows::Forms::Timer^  timer2;
 		Ans.y = -sin(degree*M_PI / 180)*P.x + cos(degree*M_PI / 180)*P.y;
 		return Ans;
 	}
-
 	private:Pt R_Radar2LiDAR(Pt P)
 	{
 		Pt Ans;
@@ -2121,7 +2031,6 @@ private: System::Windows::Forms::Timer^  timer2;
 	}
 	private:void LoadComPort()
 	{
-
 		fstream fp_ComID;
 		fp_ComID.open("ComRecord.txt", ios::in);
 		fp_ComID >> ComPortNoRecord[0]; fp_ComID >> ComPortNoRecord[1]; fp_ComID >> ComPortNoRecord[2];
@@ -2130,94 +2039,103 @@ private: System::Windows::Forms::Timer^  timer2;
 		cBox_TBox->Text = "COM" + ComPortNoRecord[1].ToString();
 		cBox_CameraList->Text = ComPortNoRecord[2].ToString();
 	}
-	private:vector<vector<Pt>>Cluster2List(vector<Pt>&XYcord, vector<int> &PointLab, int NoObj, int minPoint)
-	{
-		vector<vector<Pt> >ListTemp;
-		ListTemp.resize(NoObj);
-		for (uint i = 0; i < XYcord.size(); i++)
-		{
-			ListTemp[PointLab[i]].push_back(XYcord[i]);
-		}
-		for (uint i = 0; i < ListTemp.size(); i++)
-		{
-			if (ListTemp[i].size() < minPoint)
-			{
-				ListTemp.erase(ListTemp.begin() + i);
-				i--;
-			}
-		}
-
-		return 	ListTemp;
+	private: System::Void Btn_PlayPause_Click(System::Object^  sender, System::EventArgs^  e) {
+		timer2->Interval = 500;
+		timer2->Start();
+		fp_LiDarReader.open("Lidar.txt", ios::in);
+		t1 = 0;
+		DrawBoundary(1);
 	}
-private: System::Void Btn_PlayPause_Click(System::Object^  sender, System::EventArgs^  e) {
-	timer2->Interval = 50;
-	timer2->Start();
-	fp_LiDarReader.open("Lidar.txt", ios::in);
-	t1 = 0;
+	private: System::Void timer2_Tick(System::Object^  sender, System::EventArgs^  e) {
+
+		char line[10000];
+		chart2->Series["Series_LiDAR"]->Points->Clear();
+		chart2->Series[1]->Points->Clear();
+		fp_LiDarReader.getline(line, sizeof(line), '\n');
+		System::String^ str = gcnew System::String(line);
+		cli::array<System::String^> ^StringArray = str->Split(' ');
+		vector<Pt>LIDAR_cooridate;
+		if (StringArray->Length > 10)
+		{
+			for (uint i = 0; i < 361; i++)
+			{
+				LIDAR_X_cooridate[i] = System::Convert::ToDouble(StringArray[i]) * cos((0.5 * i) * (M_PI / 180));
+				LIDAR_Y_cooridate[i] = System::Convert::ToDouble(StringArray[i]) * sin((0.5 * i) * (M_PI / 180));
+				if (System::Convert::ToDouble(StringArray[i]) < 6000 && abs(LIDAR_X_cooridate[i]) < 1000)
+					LIDAR_cooridate.push_back(Pt(LIDAR_X_cooridate[i], LIDAR_Y_cooridate[i], System::Convert::ToDouble(StringArray[i]), 0.5 * i));
+			}
+			CurrentSpeed = System::Convert::ToDouble(StringArray[362]);
+			vector<Pt>Pt_newClusterRefPt;
+			vector<int >lab;
+			//int nObj = EuclidCluster(LIDAR_cooridate, 100);
+			int nObj = DBSCAN(LIDAR_cooridate, 100.0, 2);
+			vector<vector<Pt>> Pt_ClusterList_new = Cluster2List(LIDAR_cooridate, nObj);
+			Pt_newClusterRefPt.resize(Pt_ClusterList_new.size());
+			int index = 0;
+			for (uint16_t i = 0; i < Pt_ClusterList_new.size(); i++)
+			{
+				double  minX = 8000;
+				double minY = 8000;
+				Pt min;
+				Color color = Color::FromArgb(rng.uniform(0, 255), rng.uniform(0, 255), rng.uniform(0, 255));
+				for (uint j = 0; j < Pt_ClusterList_new[i].size(); j++)
+				{
+					if (Pt_ClusterList_new[i][j].isCore)
+					{
+						if (abs(Pt_ClusterList_new[i][j].x) < minX)
+						{
+							min.x = Pt_ClusterList_new[i][j].x;
+							minX = abs(Pt_ClusterList_new[i][j].x);
+						}
+						if (abs(Pt_ClusterList_new[i][j].y) < minY)
+						{
+							minY = abs(Pt_ClusterList_new[i][j].y);
+							min.y = Pt_ClusterList_new[i][j].y;
+						}
+					}
+					chart2->Series["Series_LiDAR"]->Points->AddXY(Pt_ClusterList_new[i][j].x, Pt_ClusterList_new[i][j].y);
+					chart2->Series["Series_LiDAR"]->Points[index]->Color = color;
+					index++;
+				}
+				Pt_newClusterRefPt[i] = min;
+				
+			}
+			if (Pt_oldClusterRefPoint.size() != Pt_newClusterRefPt.size()) {
+				for (uint i = 0; i < Pt_newClusterRefPt.size(); i++)
+					Pt_newClusterRefPt[i].KF_initial();
+				Pt_oldClusterRefPoint = Pt_newClusterRefPt;
+			    t1 = System::Convert::ToDouble(StringArray[361]);
+				return;
+			}
+
+			time_t t2 = System::Convert::ToDouble(StringArray[361]);
+			float time = (float)(t2 - t1) / CLK_TCK;
+			t1 = t2;
+			FindClosePoint(Pt_newClusterRefPt, Pt_oldClusterRefPoint, time, CurrentSpeed);
+			for (uint i = 0; i < Pt_newClusterRefPt.size(); i++)
+			{
+				chart2->Series[1]->Points->AddXY(Pt_newClusterRefPt[i].x, Pt_newClusterRefPt[i].y);
+				chart2->Series[1]->Points[i]->Label = "(" + Math::Round(Pt_newClusterRefPt[i].x, 2).ToString() + " , " + Math::Round(Pt_newClusterRefPt[i].y, 2).ToString() + " , " + Math::Round(Pt_newClusterRefPt[i].velcity - CurrentSpeed, 2).ToString() + ")";
+			}
+			Tx_CarSpeed2->Text = (-CurrentSpeed).ToString();
+			chart2->Refresh();
+			Pt_oldClusterRefPoint = Pt_newClusterRefPt;
+		}
+	}
+
+
+private: System::Void cBox_LIDAR_Mode_SelectedIndexChanged(System::Object^  sender, System::EventArgs^  e) {
 }
-private: System::Void timer2_Tick(System::Object^  sender, System::EventArgs^  e) {
-	
-	char line[10000];
-	chart2->Series["Series_LiDAR"]->Points->Clear();
-	chart2->Series[1]->Points->Clear();
-	fp_LiDarReader.getline(line, sizeof(line), '\n');
-	System::String^ str = gcnew System::String(line);
-	cli::array<System::String^> ^StringArray = str->Split(' ');
-	vector<Pt>LIDAR_cooridate;
-	for (uint i = 0; i <361; i++)
-	{
-		LIDAR_X_cooridate[i] = System::Convert::ToDouble(StringArray[i]) * cos((0.5 * i) * (M_PI / 180));
-		LIDAR_Y_cooridate[i] = System::Convert::ToDouble(StringArray[i]) * sin((0.5 * i) * (M_PI / 180));
-	
-		LIDAR_cooridate.push_back(Pt(LIDAR_X_cooridate[i], LIDAR_Y_cooridate[i]));
-	}
-	double CurrentSpeed = System::Convert::ToDouble(StringArray[362]);
-	vector<Pt>Pt_newClusterRefPt;
-	vector<int >lab;
-	int nObj = partition(LIDAR_cooridate, lab);
-	vector<vector<Pt>> Pt_ClusterList_new = Cluster2List(LIDAR_cooridate, lab, nObj, 5);
-	Pt_newClusterRefPt.resize(Pt_ClusterList_new.size());
-	int index = 0;
-	for (uint16_t i = 0; i < Pt_ClusterList_new.size(); i++)
-	{
-		double  minX = 8000;
-		double minY = 8000;
-		Pt min;
-		Color color = Color::FromArgb(rng.uniform(0, 255), rng.uniform(0, 255), rng.uniform(0, 255));
-		for (uint j = 0; j < Pt_ClusterList_new[i].size(); j++)
-		{
-			if (abs(Pt_ClusterList_new[i][j].x) < minX)
-			{
-				min.x = Pt_ClusterList_new[i][j].x;
-				minX = abs(Pt_ClusterList_new[i][j].x);
-			}
-			if (abs(Pt_ClusterList_new[i][j].y) < minY)
-			{
-				minY = abs(Pt_ClusterList_new[i][j].y);
-				min.y = Pt_ClusterList_new[i][j].y;
-			}
-			chart2->Series["Series_LiDAR"]->Points->AddXY(Pt_ClusterList_new[i][j].x, Pt_ClusterList_new[i][j].y);
-			chart2->Series["Series_LiDAR"]->Points[index]->Color = color;
-			index++;
-		}
-		Pt_newClusterRefPt[i] = min;
-
-	}
-	if (Pt_oldClusterRefPoint.size() == 0)Pt_oldClusterRefPoint.resize(Pt_newClusterRefPt.size());
-
-	time_t t2 = System::Convert::ToDouble(StringArray[361]);
-	float time = (float)(t2 - t1) / CLK_TCK;
-	t1 = t2;
-	FindClosePoint(Pt_newClusterRefPt, Pt_oldClusterRefPoint, time);
-	for (uint i = 0; i < Pt_newClusterRefPt.size(); i++)
-	{
-		chart2->Series[1]->Points->AddXY(Pt_newClusterRefPt[i].x, Pt_newClusterRefPt[i].y);
-		if (Pt_newClusterRefPt[i].velcity != 0)
-			chart2->Series[1]->Points[i]->Label = "(" + Math::Round(Pt_newClusterRefPt[i].x, 2).ToString() + " , " + Math::Round(Pt_newClusterRefPt[i].y, 2).ToString() + " , " + Math::Round(Pt_newClusterRefPt[i].velcity / 100 * 3.6 + CurrentSpeed, 2).ToString() + ")";
-	}
-	chart2->Refresh();
-	Pt_oldClusterRefPoint = Pt_newClusterRefPt;
-	
+private: System::Void Btn_UpDateFileName_Click(System::Object^  sender, System::EventArgs^  e) {
+	   
+		char timeNow[30] = { 0 };
+		uint currnetTime = System::DateTime::Now.Minute * 10000 + System::DateTime::Now.Second * 100 + System::DateTime::Now.Millisecond;
+		sprintf(timeNow, "%d", currnetTime);
+		FileNameTime = (string)"RecordData" + (string)timeNow;
+		std::string str = (string)"mkdir " + FileNameTime;
+		system(str.c_str());
+		str = FileNameTime + (string)"\\VideoTest.avi";
+		videoWrite.open(str, CV_FOURCC('M', 'J', 'P', 'G'), 30, cv::Size(640, 480));
 }
 };
 }
