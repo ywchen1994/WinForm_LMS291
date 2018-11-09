@@ -47,14 +47,14 @@ namespace WinForm_LRSensor {
 	Pt right_Radar_bias;
 	Radar RadarData;
 	std::string FileNameTime;
-	
+
 	int f_model_changed = 0;
 	VideoWriter videoWrite;
 	RNG rng(12345);
 	time_t t1;
 	fstream fp_LiDarReader;
 	/// <summary>
-	/// MyForm 的摘要 b 
+	/// MyForm 的摘要 
 	/// </summary>
 	public ref class MyForm : public System::Windows::Forms::Form
 	{
@@ -70,15 +70,15 @@ namespace WinForm_LRSensor {
 			chart1->Show();
 			LoadData();
 			LoadComPort();
-			char timeNow[30] = { 0 };
-			uint currnetTime = System::DateTime::Now.Minute * 10000 + System::DateTime::Now.Second * 100 + System::DateTime::Now.Millisecond;
-			sprintf(timeNow, "%d", currnetTime);
-			FileNameTime = (string)"RecordData" + (string)timeNow;
-			std::string str = (string)"mkdir " + FileNameTime;
-			system(str.c_str());
-			str = FileNameTime + (string)"\\VideoTest.avi";
-			PartitionValue = Convert::ToDouble(tBox_Partition->Text) * 100;
-		
+			//char timeNow[30] = { 0 };
+			//uint currnetTime = System::DateTime::Now.Minute * 10000 + System::DateTime::Now.Second * 100 + System::DateTime::Now.Millisecond;
+			//sprintf(timeNow, "%d", currnetTime);
+			//FileNameTime = (string)"RecordData" + (string)timeNow;
+			//std::string str = (string)"mkdir " + FileNameTime;
+			//system(str.c_str());
+			//str = FileNameTime + (string)"\\VideoTest.avi";
+			//PartitionValue = Convert::ToDouble(tBox_Partition->Text) * 100;
+
 		}
 
 	protected:
@@ -92,14 +92,7 @@ namespace WinForm_LRSensor {
 				delete components;
 			}
 		}
-	private: System::Windows::Forms::TabControl^  tabControl1;
-	protected:
-	private: System::Windows::Forms::TabPage^  tabPage1;
-	private: System::Windows::Forms::PictureBox^  pictureBox1;
-	private: System::Windows::Forms::TabPage^  tabPage8;
-	private: System::IO::Ports::SerialPort^  serialPort_LiDAR;
-	private: System::ComponentModel::IContainer^  components;
-	private:
+	
 		/// <summary>
 		/// 設計工具所需的變數。
 		/// </summary>
@@ -108,6 +101,14 @@ namespace WinForm_LRSensor {
 		bool f_getLiDARData = false;
 		bool f_getRRadarBias;
 		bool f_getHeader = false;
+#pragma region Design Element
+	private: System::Windows::Forms::TabControl^  tabControl1;
+	private: System::Windows::Forms::TabPage^  tabPage1;
+	private: System::Windows::Forms::PictureBox^  pictureBox1;
+	private: System::Windows::Forms::TabPage^  tabPage8;
+	private: System::IO::Ports::SerialPort^  serialPort_LiDAR;
+	private: System::ComponentModel::IContainer^  components;
+	private:
 	private: System::Windows::Forms::Timer^  timer1;
 	private: System::IO::Ports::SerialPort^  serialPort_Radar_Angle;
 	private: System::IO::Ports::SerialPort^  serialPort_Radar;
@@ -175,7 +176,6 @@ namespace WinForm_LRSensor {
 	private: System::Windows::Forms::Label^  label3;
 	private: System::Windows::Forms::Label^  label6;
 	private: System::Windows::Forms::DataGridView^  Table_BSD;
-
 	private: System::Windows::Forms::DataGridViewTextBoxColumn^  Column5;
 	private: System::Windows::Forms::DataGridViewTextBoxColumn^  Column6;
 	private: System::Windows::Forms::DataGridView^  dataGridView1;
@@ -188,15 +188,11 @@ namespace WinForm_LRSensor {
 	private: System::Windows::Forms::PictureBox^  pictureBox2;
 	private: System::Windows::Forms::Timer^  timer2;
 	private: System::Windows::Forms::Label^  Tx_CarSpeed2;
-private: System::Windows::Forms::ComboBox^  cBox_LIDAR_Mode;
 
-private: System::Windows::Forms::Label^  label1;
-private: System::Windows::Forms::Button^  Btn_UpDateFileName;
-
+	private: System::Windows::Forms::Label^  label1;
+	private: System::Windows::Forms::Button^  Btn_UpDateFileName;
 	private: System::Windows::Forms::DataGridViewTextBoxColumn^  dataGridViewTextBoxColumn4;
-
-
-
+#pragma endregion
 
 #pragma region Windows Form Designer generated code
 			 /// <summary>
@@ -272,7 +268,6 @@ private: System::Windows::Forms::Button^  Btn_UpDateFileName;
 				 this->cBox_Radar_Angle = (gcnew System::Windows::Forms::ComboBox());
 				 this->groupBox9 = (gcnew System::Windows::Forms::GroupBox());
 				 this->Btn_UpDateSetting = (gcnew System::Windows::Forms::Button());
-				 this->cBox_LIDAR_Mode = (gcnew System::Windows::Forms::ComboBox());
 				 this->label1 = (gcnew System::Windows::Forms::Label());
 				 this->label21 = (gcnew System::Windows::Forms::Label());
 				 this->cBox_LiDAR = (gcnew System::Windows::Forms::ComboBox());
@@ -370,11 +365,11 @@ private: System::Windows::Forms::Button^  Btn_UpDateFileName;
 				 // 
 				 // Btn_UpDateFileName
 				 // 
-				 this->Btn_UpDateFileName->Location = System::Drawing::Point(1410, 526);
+				 this->Btn_UpDateFileName->Location = System::Drawing::Point(1403, 456);
 				 this->Btn_UpDateFileName->Name = L"Btn_UpDateFileName";
-				 this->Btn_UpDateFileName->Size = System::Drawing::Size(75, 23);
+				 this->Btn_UpDateFileName->Size = System::Drawing::Size(129, 73);
 				 this->Btn_UpDateFileName->TabIndex = 12;
-				 this->Btn_UpDateFileName->Text = L"button1";
+				 this->Btn_UpDateFileName->Text = L"更新存檔名";
 				 this->Btn_UpDateFileName->UseVisualStyleBackColor = true;
 				 this->Btn_UpDateFileName->Click += gcnew System::EventHandler(this, &MyForm::Btn_UpDateFileName_Click);
 				 // 
@@ -881,7 +876,6 @@ private: System::Windows::Forms::Button^  Btn_UpDateFileName;
 				 // groupBox9
 				 // 
 				 this->groupBox9->Controls->Add(this->Btn_UpDateSetting);
-				 this->groupBox9->Controls->Add(this->cBox_LIDAR_Mode);
 				 this->groupBox9->Controls->Add(this->label1);
 				 this->groupBox9->Controls->Add(this->label21);
 				 this->groupBox9->Controls->Add(this->cBox_LiDAR);
@@ -905,15 +899,6 @@ private: System::Windows::Forms::Button^  Btn_UpDateFileName;
 				 this->Btn_UpDateSetting->Text = L"更新設定值";
 				 this->Btn_UpDateSetting->UseVisualStyleBackColor = true;
 				 this->Btn_UpDateSetting->Click += gcnew System::EventHandler(this, &MyForm::Btn_UpDateSetting_Click);
-				 // 
-				 // cBox_LIDAR_Mode
-				 // 
-				 this->cBox_LIDAR_Mode->FormattingEnabled = true;
-				 this->cBox_LIDAR_Mode->Location = System::Drawing::Point(29, 57);
-				 this->cBox_LIDAR_Mode->Name = L"cBox_LIDAR_Mode";
-				 this->cBox_LIDAR_Mode->Size = System::Drawing::Size(121, 20);
-				 this->cBox_LIDAR_Mode->TabIndex = 16;
-				 this->cBox_LIDAR_Mode->SelectedIndexChanged += gcnew System::EventHandler(this, &MyForm::cBox_LIDAR_Mode_SelectedIndexChanged);
 				 // 
 				 // label1
 				 // 
@@ -1378,10 +1363,10 @@ private: System::Windows::Forms::Button^  Btn_UpDateFileName;
 	}
 	private: System::Void Btn_CamCnt_Click(System::Object^  sender, System::EventArgs^  e) {
 		if (cap.isOpened())cap.release();
-		cap.open(Convert::ToInt16(cBox_CameraList->Text->Substring(0, 1)));
-
+	
+		cap.open(CV_CAP_DSHOW);
+		//cap.open(Convert::ToInt16(cBox_CameraList->Text->Substring(0, 1)));
 		ComPortNoRecord[2] = Convert::ToInt16(cBox_CameraList->Text->Substring(0, 1));
-
 		string str = FileNameTime + (string)"\\VideoTest.avi";
 		videoWrite.open(str, CV_FOURCC('M', 'J', 'P', 'G'), 30, cv::Size(640, 480));
 		fstream fp_ComID;
@@ -1389,7 +1374,6 @@ private: System::Windows::Forms::Button^  Btn_UpDateFileName;
 		fp_ComID << ComPortNoRecord[0] << " " << ComPortNoRecord[1] << " " << ComPortNoRecord[2] << endl;
 		fp_ComID.close();
 	}
-
 	private: System::Void serialPort_LiDAR_DataReceived(System::Object^  sender, System::IO::Ports::SerialDataReceivedEventArgs^  e) {
 		cli::array<System::Byte>^ LiDAR_SerialPortData = gcnew cli::array<Byte>(10000);
 		int ReadSize = serialPort_LiDAR->Read(LiDAR_SerialPortData, 0, 10000);
@@ -1418,8 +1402,6 @@ private: System::Windows::Forms::Button^  Btn_UpDateFileName;
 			}
 		}
 		int Data[361];
-
-
 		if ((counter + 1) == 734)
 		{
 			for (uint i = 0; i < 361; i++)
@@ -1439,7 +1421,6 @@ private: System::Windows::Forms::Button^  Btn_UpDateFileName;
 	}
 	private: System::Void Btn_LiDARCnt_Click(System::Object^  sender, System::EventArgs^  e) {
 		if (serialPort_LiDAR->IsOpen)serialPort_LiDAR->Close();
-
 		serialPort_LiDAR->PortName = cBox_LiDAR->Text;
 		serialPort_LiDAR->Encoding = System::Text::Encoding::GetEncoding(28591);
 		serialPort_LiDAR->BaudRate = 9600;
@@ -1466,11 +1447,9 @@ private: System::Windows::Forms::Button^  Btn_UpDateFileName;
 			_sleep(500);
 			serialPort_LiDAR->Write(continuous_LMS_data_manage, 0, 8);
 		}
-
-
 	}
 	private: System::Void timer1_Tick(System::Object^  sender, System::EventArgs^  e) {
-		
+
 		if (cap.isOpened())
 		{
 			Mat frame1;
@@ -1505,7 +1484,7 @@ private: System::Windows::Forms::Button^  Btn_UpDateFileName;
 			fp_Lidar << t1 << " " << TBox.currentSpeed << endl;
 			fp_Lidar.close();
 			vector<int >lab;
-			int nObj = DBSCAN(LIDAR_cooridate, 100.0,2);
+			int nObj = EuclidCluster(LIDAR_cooridate, PartitionValue);
 			vector<vector<Pt>> Pt_ClusterList_new = Cluster2List(LIDAR_cooridate, nObj);
 			Pt_newClusterRefPt.resize(Pt_ClusterList_new.size());
 			int index = 0;
@@ -1532,6 +1511,7 @@ private: System::Windows::Forms::Button^  Btn_UpDateFileName;
 					index++;
 				}
 				Pt_newClusterRefPt[i] = min;
+				Pt_newClusterRefPt[i].range = get_Distance(min, Pt(0, 0));
 			}
 			if (Pt_oldClusterRefPoint.size() == 0) {
 				for (uint i = 0; i < Pt_newClusterRefPt.size(); i++)
@@ -1935,7 +1915,7 @@ private: System::Windows::Forms::Button^  Btn_UpDateFileName;
 			this->lbBsdAngleT->Refresh();
 		}
 	}
-	
+
 	private:void LoadData()
 	{
 		std::fstream fp;
@@ -1988,6 +1968,7 @@ private: System::Windows::Forms::Button^  Btn_UpDateFileName;
 		double minDistant = 8000000;
 		double distant;
 		Pt closetPt;
+		
 		for (uint i = 0; i < Pt_oldClusterRefPoint.size(); i++)
 		{
 			distant = sqrt(pow(Pt_oldClusterRefPoint[i].x, 2) + pow(Pt_oldClusterRefPoint[i].y, 2));
@@ -2067,8 +2048,8 @@ private: System::Windows::Forms::Button^  Btn_UpDateFileName;
 			CurrentSpeed = System::Convert::ToDouble(StringArray[362]);
 			vector<Pt>Pt_newClusterRefPt;
 			vector<int >lab;
-			//int nObj = EuclidCluster(LIDAR_cooridate, 100);
-			int nObj = DBSCAN(LIDAR_cooridate, 100.0, 2);
+			int nObj = EuclidCluster(LIDAR_cooridate, 200);
+		//	int nObj = DBSCAN(LIDAR_cooridate, PartitionValue, 2);
 			vector<vector<Pt>> Pt_ClusterList_new = Cluster2List(LIDAR_cooridate, nObj);
 			Pt_newClusterRefPt.resize(Pt_ClusterList_new.size());
 			int index = 0;
@@ -2098,24 +2079,28 @@ private: System::Windows::Forms::Button^  Btn_UpDateFileName;
 					index++;
 				}
 				Pt_newClusterRefPt[i] = min;
-				
+				Pt_newClusterRefPt[i].range = get_Distance(min, Pt(0, 0));
+
 			}
 			if (Pt_oldClusterRefPoint.size() == 0) {
 				for (uint i = 0; i < Pt_newClusterRefPt.size(); i++)
 					Pt_newClusterRefPt[i].KF_initial();
 				Pt_oldClusterRefPoint = Pt_newClusterRefPt;
-			    t1 = System::Convert::ToDouble(StringArray[361]);
+				t1 = System::Convert::ToDouble(StringArray[361]);
 				return;
 			}
 
 			time_t t2 = System::Convert::ToDouble(StringArray[361]);
 			float time = (float)(t2 - t1) / CLK_TCK;
 			t1 = t2;
+		
 			FindClosePoint(Pt_newClusterRefPt, Pt_oldClusterRefPoint, time, CurrentSpeed);
 			for (uint i = 0; i < Pt_newClusterRefPt.size(); i++)
 			{
+				
 				chart2->Series[1]->Points->AddXY(Pt_newClusterRefPt[i].x, Pt_newClusterRefPt[i].y);
-				chart2->Series[1]->Points[i]->Label = "(" + Math::Round(Pt_newClusterRefPt[i].x, 2).ToString() + " , " + Math::Round(Pt_newClusterRefPt[i].y, 2).ToString() + " , " + Math::Round(Pt_newClusterRefPt[i].velcity - CurrentSpeed, 2).ToString() + ")";
+
+				chart2->Series[1]->Points[i]->Label = "(" + Math::Round(Pt_newClusterRefPt[i].x, 2).ToString() + " , " + Math::Round(Pt_newClusterRefPt[i].y, 2).ToString() + " , " + Math::Round(Pt_newClusterRefPt[i].velcity , 2).ToString() + ")";
 			}
 			Tx_CarSpeed2->Text = (-CurrentSpeed).ToString();
 			chart2->Refresh();
@@ -2124,10 +2109,9 @@ private: System::Windows::Forms::Button^  Btn_UpDateFileName;
 	}
 
 
-private: System::Void cBox_LIDAR_Mode_SelectedIndexChanged(System::Object^  sender, System::EventArgs^  e) {
-}
-private: System::Void Btn_UpDateFileName_Click(System::Object^  sender, System::EventArgs^  e) {
-	   
+
+	private: System::Void Btn_UpDateFileName_Click(System::Object^  sender, System::EventArgs^  e) {
+
 		char timeNow[30] = { 0 };
 		uint currnetTime = System::DateTime::Now.Minute * 10000 + System::DateTime::Now.Second * 100 + System::DateTime::Now.Millisecond;
 		sprintf(timeNow, "%d", currnetTime);
@@ -2136,6 +2120,6 @@ private: System::Void Btn_UpDateFileName_Click(System::Object^  sender, System::
 		system(str.c_str());
 		str = FileNameTime + (string)"\\VideoTest.avi";
 		videoWrite.open(str, CV_FOURCC('M', 'J', 'P', 'G'), 30, cv::Size(640, 480));
-}
-};
+	}
+	};
 }

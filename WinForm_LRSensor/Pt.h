@@ -72,7 +72,7 @@ static void FindClosePoint(vector<Pt>&NewPoints, vector<Pt>&oldPoints, double ti
 				NewPoints[i].y = KF_oldPtPredict[minPointIndex].y;
 				NewPoints[i].KF = oldPoints[minPointIndex].KF;
 				NewPoints[i].velcity = get_Distance(NewPoints[i], oldPoints[minPointIndex]) / timeInterval;
-				if ((NewPoints[i].y - oldPoints[minPointIndex].y) < 0)
+				if (NewPoints[i].range<oldPoints[minPointIndex].range )
 					NewPoints[i].velcity = -NewPoints[i].velcity;
 		}
 		else
