@@ -131,7 +131,7 @@ vector<vector<Pt>>Cluster2List(vector<Pt>&XYcord, int NoObj)
 }
 bool predicate(Pt P1, Pt P2,double eps)
 {
-	return   (abs(P1.y - P2.y)<400 && abs(P1.x - P2.x)<200);
+	return   (abs(P1.y - P2.y)<300 && abs(P1.x - P2.x)<100);
 }
 int EuclidCluster(vector<Pt>& _vec, double eps)
 {

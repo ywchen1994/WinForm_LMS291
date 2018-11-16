@@ -39,7 +39,7 @@ namespace WinForm_LRSensor {
 	double bsdAngle = 0;
 	Pt AngleRadar_Point;
 	float AlphaBias;
-	double targetDistant;
+	
 	int LiDAR_Data[722] = { 0 };
 	CTBox TBox;
 	double PartitionValue = 0;
@@ -47,7 +47,7 @@ namespace WinForm_LRSensor {
 	Pt right_Radar_bias;
 	Radar RadarData;
 	std::string FileNameTime;
-
+	std::string LoadFilePath;
 	int f_model_changed = 0;
 	VideoWriter videoWrite;
 	RNG rng(12345);
@@ -70,14 +70,7 @@ namespace WinForm_LRSensor {
 			chart1->Show();
 			LoadData();
 			LoadComPort();
-			//char timeNow[30] = { 0 };
-			//uint currnetTime = System::DateTime::Now.Minute * 10000 + System::DateTime::Now.Second * 100 + System::DateTime::Now.Millisecond;
-			//sprintf(timeNow, "%d", currnetTime);
-			//FileNameTime = (string)"RecordData" + (string)timeNow;
-			//std::string str = (string)"mkdir " + FileNameTime;
-			//system(str.c_str());
-			//str = FileNameTime + (string)"\\VideoTest.avi";
-			//PartitionValue = Convert::ToDouble(tBox_Partition->Text) * 100;
+
 
 		}
 
@@ -92,7 +85,7 @@ namespace WinForm_LRSensor {
 				delete components;
 			}
 		}
-	
+
 		/// <summary>
 		/// 設計工具所需的變數。
 		/// </summary>
@@ -110,7 +103,7 @@ namespace WinForm_LRSensor {
 	private: System::ComponentModel::IContainer^  components;
 	private:
 	private: System::Windows::Forms::Timer^  timer1;
-	private: System::IO::Ports::SerialPort^  serialPort_Radar_Angle;
+
 	private: System::IO::Ports::SerialPort^  serialPort_Radar;
 	private: System::IO::Ports::SerialPort^  serialPort_Tbox;
 	private: System::Windows::Forms::Label^  tx_TBox_LAngle;
@@ -128,35 +121,35 @@ namespace WinForm_LRSensor {
 	private: System::Windows::Forms::Button^  Btn_Radar_Connect;
 	private: System::Windows::Forms::ComboBox^  cBox_Radar;
 	private: System::Windows::Forms::Button^  Btn_Refresh_Combox;
-	private: System::Windows::Forms::GroupBox^  groupBox8;
+
 	private: System::Windows::Forms::Button^  Btn_UpDateSetting;
-	private: System::Windows::Forms::GroupBox^  groupBox10;
-	private: System::Windows::Forms::Label^  label23;
-	private: System::Windows::Forms::Label^  label24;
-	private: System::Windows::Forms::TextBox^  txBox_targetDistant;
-	private: System::Windows::Forms::TextBox^  txBox_AlphaBias;
-	private: System::Windows::Forms::Label^  label25;
-	private: System::Windows::Forms::Button^  Btn_Send_RadarAngle_Cmd;
-	private: System::Windows::Forms::Button^  button6;
-	private: System::Windows::Forms::Label^  lbBsdAngleT;
-	private: System::Windows::Forms::GroupBox^  groupBox7;
-	private: System::Windows::Forms::TabControl^  tabControl3;
-	private: System::Windows::Forms::TabPage^  tabPage5;
-	private: System::Windows::Forms::Label^  tx_LRadarBias_Y;
-	private: System::Windows::Forms::Label^  tx_LRadarBias_X;
-	private: System::Windows::Forms::Label^  label13;
-	private: System::Windows::Forms::Label^  label14;
-	private: System::Windows::Forms::Button^  Btn_LeftBias;
-	private: System::Windows::Forms::TabPage^  tabPage6;
-	private: System::Windows::Forms::CheckBox^  ckBox_RadarR;
-	private: System::Windows::Forms::Label^  tx_RRadarBias_X;
-	private: System::Windows::Forms::Label^  tx_RRadarBias_Y;
-	private: System::Windows::Forms::Label^  label17;
-	private: System::Windows::Forms::Label^  label18;
-	private: System::Windows::Forms::Button^  Btn_RightBias;
-	private: System::Windows::Forms::Label^  label20;
-	private: System::Windows::Forms::Button^  Btn_RadarAngle_Connect;
-	private: System::Windows::Forms::ComboBox^  cBox_Radar_Angle;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 	private: System::Windows::Forms::GroupBox^  groupBox9;
 	private: System::Windows::Forms::Label^  label21;
 	private: System::Windows::Forms::ComboBox^  cBox_LiDAR;
@@ -173,8 +166,8 @@ namespace WinForm_LRSensor {
 	private: System::Windows::Forms::Label^  Tx_Radar_Mode;
 	private: System::Windows::Forms::ComboBox^  cBox_TBox;
 	private: System::Windows::Forms::Button^  Btn_TboxCnt;
-	private: System::Windows::Forms::Label^  label3;
-	private: System::Windows::Forms::Label^  label6;
+
+
 	private: System::Windows::Forms::DataGridView^  Table_BSD;
 	private: System::Windows::Forms::DataGridViewTextBoxColumn^  Column5;
 	private: System::Windows::Forms::DataGridViewTextBoxColumn^  Column6;
@@ -191,6 +184,8 @@ namespace WinForm_LRSensor {
 
 	private: System::Windows::Forms::Label^  label1;
 	private: System::Windows::Forms::Button^  Btn_UpDateFileName;
+	private: System::Windows::Forms::Button^  Btn_LoadFilePath;
+	private: System::Windows::Forms::TextBox^  tBox_LoadPath;
 	private: System::Windows::Forms::DataGridViewTextBoxColumn^  dataGridViewTextBoxColumn4;
 #pragma endregion
 
@@ -238,34 +233,6 @@ namespace WinForm_LRSensor {
 				 this->Btn_Radar_Connect = (gcnew System::Windows::Forms::Button());
 				 this->cBox_Radar = (gcnew System::Windows::Forms::ComboBox());
 				 this->Btn_Refresh_Combox = (gcnew System::Windows::Forms::Button());
-				 this->groupBox8 = (gcnew System::Windows::Forms::GroupBox());
-				 this->groupBox10 = (gcnew System::Windows::Forms::GroupBox());
-				 this->label23 = (gcnew System::Windows::Forms::Label());
-				 this->label24 = (gcnew System::Windows::Forms::Label());
-				 this->txBox_targetDistant = (gcnew System::Windows::Forms::TextBox());
-				 this->txBox_AlphaBias = (gcnew System::Windows::Forms::TextBox());
-				 this->label25 = (gcnew System::Windows::Forms::Label());
-				 this->Btn_Send_RadarAngle_Cmd = (gcnew System::Windows::Forms::Button());
-				 this->button6 = (gcnew System::Windows::Forms::Button());
-				 this->lbBsdAngleT = (gcnew System::Windows::Forms::Label());
-				 this->groupBox7 = (gcnew System::Windows::Forms::GroupBox());
-				 this->tabControl3 = (gcnew System::Windows::Forms::TabControl());
-				 this->tabPage5 = (gcnew System::Windows::Forms::TabPage());
-				 this->tx_LRadarBias_Y = (gcnew System::Windows::Forms::Label());
-				 this->tx_LRadarBias_X = (gcnew System::Windows::Forms::Label());
-				 this->label13 = (gcnew System::Windows::Forms::Label());
-				 this->label14 = (gcnew System::Windows::Forms::Label());
-				 this->Btn_LeftBias = (gcnew System::Windows::Forms::Button());
-				 this->tabPage6 = (gcnew System::Windows::Forms::TabPage());
-				 this->ckBox_RadarR = (gcnew System::Windows::Forms::CheckBox());
-				 this->tx_RRadarBias_X = (gcnew System::Windows::Forms::Label());
-				 this->tx_RRadarBias_Y = (gcnew System::Windows::Forms::Label());
-				 this->label17 = (gcnew System::Windows::Forms::Label());
-				 this->label18 = (gcnew System::Windows::Forms::Label());
-				 this->Btn_RightBias = (gcnew System::Windows::Forms::Button());
-				 this->label20 = (gcnew System::Windows::Forms::Label());
-				 this->Btn_RadarAngle_Connect = (gcnew System::Windows::Forms::Button());
-				 this->cBox_Radar_Angle = (gcnew System::Windows::Forms::ComboBox());
 				 this->groupBox9 = (gcnew System::Windows::Forms::GroupBox());
 				 this->Btn_UpDateSetting = (gcnew System::Windows::Forms::Button());
 				 this->label1 = (gcnew System::Windows::Forms::Label());
@@ -293,16 +260,15 @@ namespace WinForm_LRSensor {
 				 this->Tx_Radar_Mode = (gcnew System::Windows::Forms::Label());
 				 this->cBox_TBox = (gcnew System::Windows::Forms::ComboBox());
 				 this->Btn_TboxCnt = (gcnew System::Windows::Forms::Button());
-				 this->label3 = (gcnew System::Windows::Forms::Label());
-				 this->label6 = (gcnew System::Windows::Forms::Label());
 				 this->tabPage8 = (gcnew System::Windows::Forms::TabPage());
+				 this->tBox_LoadPath = (gcnew System::Windows::Forms::TextBox());
+				 this->Btn_LoadFilePath = (gcnew System::Windows::Forms::Button());
 				 this->Tx_CarSpeed2 = (gcnew System::Windows::Forms::Label());
 				 this->Btn_PlayPause = (gcnew System::Windows::Forms::Button());
 				 this->pictureBox2 = (gcnew System::Windows::Forms::PictureBox());
 				 this->chart2 = (gcnew System::Windows::Forms::DataVisualization::Charting::Chart());
 				 this->serialPort_LiDAR = (gcnew System::IO::Ports::SerialPort(this->components));
 				 this->timer1 = (gcnew System::Windows::Forms::Timer(this->components));
-				 this->serialPort_Radar_Angle = (gcnew System::IO::Ports::SerialPort(this->components));
 				 this->serialPort_Radar = (gcnew System::IO::Ports::SerialPort(this->components));
 				 this->serialPort_Tbox = (gcnew System::IO::Ports::SerialPort(this->components));
 				 this->timer2 = (gcnew System::Windows::Forms::Timer(this->components));
@@ -313,12 +279,6 @@ namespace WinForm_LRSensor {
 				 this->tabPage2->SuspendLayout();
 				 this->groupBox1->SuspendLayout();
 				 this->groupBox5->SuspendLayout();
-				 this->groupBox8->SuspendLayout();
-				 this->groupBox10->SuspendLayout();
-				 this->groupBox7->SuspendLayout();
-				 this->tabControl3->SuspendLayout();
-				 this->tabPage5->SuspendLayout();
-				 this->tabPage6->SuspendLayout();
 				 this->groupBox9->SuspendLayout();
 				 this->groupBox6->SuspendLayout();
 				 this->tabControl2->SuspendLayout();
@@ -385,9 +345,11 @@ namespace WinForm_LRSensor {
 				 // chart1
 				 // 
 				 chartArea1->AxisX->Interval = 100;
+				 chartArea1->AxisX->IsReversed = true;
 				 chartArea1->AxisX->Maximum = 1000;
 				 chartArea1->AxisX->Minimum = -1000;
 				 chartArea1->AxisY->Interval = 100;
+				 chartArea1->AxisY->IsReversed = true;
 				 chartArea1->AxisY->Maximum = 6000;
 				 chartArea1->AxisY->Minimum = 0;
 				 chartArea1->Name = L"ChartArea1";
@@ -423,8 +385,8 @@ namespace WinForm_LRSensor {
 				 series4->ChartArea = L"ChartArea1";
 				 series4->ChartType = System::Windows::Forms::DataVisualization::Charting::SeriesChartType::Point;
 				 series4->Legend = L"Legend1";
-				 series4->MarkerColor = System::Drawing::SystemColors::MenuHighlight;
-				 series4->MarkerSize = 10;
+				 series4->MarkerColor = System::Drawing::Color::DarkMagenta;
+				 series4->MarkerSize = 15;
 				 series4->MarkerStyle = System::Windows::Forms::DataVisualization::Charting::MarkerStyle::Star4;
 				 series4->Name = L"Series_TBox_LRadar";
 				 series5->ChartArea = L"ChartArea1";
@@ -460,7 +422,7 @@ namespace WinForm_LRSensor {
 				 // tx_TBox_LAngle
 				 // 
 				 this->tx_TBox_LAngle->AutoSize = true;
-				 this->tx_TBox_LAngle->Location = System::Drawing::Point(1641, 591);
+				 this->tx_TBox_LAngle->Location = System::Drawing::Point(1423, 591);
 				 this->tx_TBox_LAngle->Name = L"tx_TBox_LAngle";
 				 this->tx_TBox_LAngle->Size = System::Drawing::Size(33, 12);
 				 this->tx_TBox_LAngle->TabIndex = 3;
@@ -469,7 +431,7 @@ namespace WinForm_LRSensor {
 				 // tx_TBox_RAngle
 				 // 
 				 this->tx_TBox_RAngle->AutoSize = true;
-				 this->tx_TBox_RAngle->Location = System::Drawing::Point(1423, 591);
+				 this->tx_TBox_RAngle->Location = System::Drawing::Point(1657, 591);
 				 this->tx_TBox_RAngle->Name = L"tx_TBox_RAngle";
 				 this->tx_TBox_RAngle->Size = System::Drawing::Size(33, 12);
 				 this->tx_TBox_RAngle->TabIndex = 2;
@@ -490,7 +452,6 @@ namespace WinForm_LRSensor {
 				 this->tabPage2->Controls->Add(this->groupBox1);
 				 this->tabPage2->Controls->Add(this->groupBox5);
 				 this->tabPage2->Controls->Add(this->Btn_Refresh_Combox);
-				 this->tabPage2->Controls->Add(this->groupBox8);
 				 this->tabPage2->Controls->Add(this->groupBox9);
 				 this->tabPage2->Controls->Add(this->groupBox6);
 				 this->tabPage2->Font = (gcnew System::Drawing::Font(L"細明體", 9, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
@@ -516,7 +477,7 @@ namespace WinForm_LRSensor {
 				 // 
 				 this->groupBox1->Controls->Add(this->Btn_CamCnt);
 				 this->groupBox1->Controls->Add(this->cBox_CameraList);
-				 this->groupBox1->Location = System::Drawing::Point(742, 120);
+				 this->groupBox1->Location = System::Drawing::Point(293, 120);
 				 this->groupBox1->Name = L"groupBox1";
 				 this->groupBox1->Size = System::Drawing::Size(150, 139);
 				 this->groupBox1->TabIndex = 14;
@@ -546,7 +507,7 @@ namespace WinForm_LRSensor {
 				 this->groupBox5->Controls->Add(this->label9);
 				 this->groupBox5->Controls->Add(this->Btn_Radar_Connect);
 				 this->groupBox5->Controls->Add(this->cBox_Radar);
-				 this->groupBox5->Location = System::Drawing::Point(742, 18);
+				 this->groupBox5->Location = System::Drawing::Point(293, 18);
 				 this->groupBox5->Name = L"groupBox5";
 				 this->groupBox5->Size = System::Drawing::Size(200, 84);
 				 this->groupBox5->TabIndex = 13;
@@ -589,289 +550,6 @@ namespace WinForm_LRSensor {
 				 this->Btn_Refresh_Combox->Text = L"Update Com";
 				 this->Btn_Refresh_Combox->UseVisualStyleBackColor = true;
 				 this->Btn_Refresh_Combox->Click += gcnew System::EventHandler(this, &MyForm::Btn_Refresh_Combox_Click);
-				 // 
-				 // groupBox8
-				 // 
-				 this->groupBox8->Controls->Add(this->groupBox10);
-				 this->groupBox8->Controls->Add(this->Btn_Send_RadarAngle_Cmd);
-				 this->groupBox8->Controls->Add(this->button6);
-				 this->groupBox8->Controls->Add(this->lbBsdAngleT);
-				 this->groupBox8->Controls->Add(this->groupBox7);
-				 this->groupBox8->Controls->Add(this->label20);
-				 this->groupBox8->Controls->Add(this->Btn_RadarAngle_Connect);
-				 this->groupBox8->Controls->Add(this->cBox_Radar_Angle);
-				 this->groupBox8->Location = System::Drawing::Point(342, 18);
-				 this->groupBox8->Name = L"groupBox8";
-				 this->groupBox8->Size = System::Drawing::Size(384, 292);
-				 this->groupBox8->TabIndex = 11;
-				 this->groupBox8->TabStop = false;
-				 this->groupBox8->Text = L"Radar_Angle";
-				 // 
-				 // groupBox10
-				 // 
-				 this->groupBox10->Controls->Add(this->label23);
-				 this->groupBox10->Controls->Add(this->label24);
-				 this->groupBox10->Controls->Add(this->txBox_targetDistant);
-				 this->groupBox10->Controls->Add(this->txBox_AlphaBias);
-				 this->groupBox10->Controls->Add(this->label25);
-				 this->groupBox10->Location = System::Drawing::Point(189, 20);
-				 this->groupBox10->Margin = System::Windows::Forms::Padding(2);
-				 this->groupBox10->Name = L"groupBox10";
-				 this->groupBox10->Padding = System::Windows::Forms::Padding(2);
-				 this->groupBox10->Size = System::Drawing::Size(181, 80);
-				 this->groupBox10->TabIndex = 16;
-				 this->groupBox10->TabStop = false;
-				 this->groupBox10->Text = L"AngleRadarSetting";
-				 // 
-				 // label23
-				 // 
-				 this->label23->AutoSize = true;
-				 this->label23->Location = System::Drawing::Point(158, 66);
-				 this->label23->Name = L"label23";
-				 this->label23->Size = System::Drawing::Size(23, 12);
-				 this->label23->TabIndex = 14;
-				 this->label23->Text = L"(m)";
-				 // 
-				 // label24
-				 // 
-				 this->label24->AutoSize = true;
-				 this->label24->Location = System::Drawing::Point(5, 66);
-				 this->label24->Name = L"label24";
-				 this->label24->Size = System::Drawing::Size(95, 12);
-				 this->label24->TabIndex = 13;
-				 this->label24->Text = L"target Distant:";
-				 // 
-				 // txBox_targetDistant
-				 // 
-				 this->txBox_targetDistant->Location = System::Drawing::Point(106, 56);
-				 this->txBox_targetDistant->Name = L"txBox_targetDistant";
-				 this->txBox_targetDistant->Size = System::Drawing::Size(46, 22);
-				 this->txBox_targetDistant->TabIndex = 12;
-				 this->txBox_targetDistant->Text = L"3.24";
-				 // 
-				 // txBox_AlphaBias
-				 // 
-				 this->txBox_AlphaBias->Location = System::Drawing::Point(80, 16);
-				 this->txBox_AlphaBias->Name = L"txBox_AlphaBias";
-				 this->txBox_AlphaBias->Size = System::Drawing::Size(46, 22);
-				 this->txBox_AlphaBias->TabIndex = 11;
-				 this->txBox_AlphaBias->Text = L"-2.67";
-				 // 
-				 // label25
-				 // 
-				 this->label25->AutoSize = true;
-				 this->label25->Location = System::Drawing::Point(5, 26);
-				 this->label25->Name = L"label25";
-				 this->label25->Size = System::Drawing::Size(71, 12);
-				 this->label25->TabIndex = 10;
-				 this->label25->Text = L"Alpha Bias:";
-				 // 
-				 // Btn_Send_RadarAngle_Cmd
-				 // 
-				 this->Btn_Send_RadarAngle_Cmd->Location = System::Drawing::Point(8, 62);
-				 this->Btn_Send_RadarAngle_Cmd->Name = L"Btn_Send_RadarAngle_Cmd";
-				 this->Btn_Send_RadarAngle_Cmd->Size = System::Drawing::Size(75, 23);
-				 this->Btn_Send_RadarAngle_Cmd->TabIndex = 10;
-				 this->Btn_Send_RadarAngle_Cmd->Text = L"Send BSD";
-				 this->Btn_Send_RadarAngle_Cmd->UseVisualStyleBackColor = true;
-				 this->Btn_Send_RadarAngle_Cmd->Click += gcnew System::EventHandler(this, &MyForm::Btn_Send_RadarAngle_Cmd_Click_1);
-				 // 
-				 // button6
-				 // 
-				 this->button6->Location = System::Drawing::Point(99, 62);
-				 this->button6->Name = L"button6";
-				 this->button6->Size = System::Drawing::Size(75, 23);
-				 this->button6->TabIndex = 8;
-				 this->button6->Text = L"關閉";
-				 this->button6->UseVisualStyleBackColor = true;
-				 // 
-				 // lbBsdAngleT
-				 // 
-				 this->lbBsdAngleT->AutoSize = true;
-				 this->lbBsdAngleT->Location = System::Drawing::Point(73, 119);
-				 this->lbBsdAngleT->Name = L"lbBsdAngleT";
-				 this->lbBsdAngleT->Size = System::Drawing::Size(41, 12);
-				 this->lbBsdAngleT->TabIndex = 5;
-				 this->lbBsdAngleT->Text = L"label3";
-				 // 
-				 // groupBox7
-				 // 
-				 this->groupBox7->Controls->Add(this->tabControl3);
-				 this->groupBox7->Location = System::Drawing::Point(8, 156);
-				 this->groupBox7->Name = L"groupBox7";
-				 this->groupBox7->Size = System::Drawing::Size(195, 130);
-				 this->groupBox7->TabIndex = 8;
-				 this->groupBox7->TabStop = false;
-				 this->groupBox7->Text = L"對位";
-				 // 
-				 // tabControl3
-				 // 
-				 this->tabControl3->Controls->Add(this->tabPage5);
-				 this->tabControl3->Controls->Add(this->tabPage6);
-				 this->tabControl3->Location = System::Drawing::Point(6, 21);
-				 this->tabControl3->Name = L"tabControl3";
-				 this->tabControl3->SelectedIndex = 0;
-				 this->tabControl3->Size = System::Drawing::Size(166, 101);
-				 this->tabControl3->TabIndex = 0;
-				 // 
-				 // tabPage5
-				 // 
-				 this->tabPage5->Controls->Add(this->tx_LRadarBias_Y);
-				 this->tabPage5->Controls->Add(this->tx_LRadarBias_X);
-				 this->tabPage5->Controls->Add(this->label13);
-				 this->tabPage5->Controls->Add(this->label14);
-				 this->tabPage5->Controls->Add(this->Btn_LeftBias);
-				 this->tabPage5->Location = System::Drawing::Point(4, 22);
-				 this->tabPage5->Name = L"tabPage5";
-				 this->tabPage5->Padding = System::Windows::Forms::Padding(3);
-				 this->tabPage5->Size = System::Drawing::Size(158, 75);
-				 this->tabPage5->TabIndex = 0;
-				 this->tabPage5->Text = L"左邊雷達";
-				 this->tabPage5->UseVisualStyleBackColor = true;
-				 // 
-				 // tx_LRadarBias_Y
-				 // 
-				 this->tx_LRadarBias_Y->AutoSize = true;
-				 this->tx_LRadarBias_Y->Location = System::Drawing::Point(92, 41);
-				 this->tx_LRadarBias_Y->Name = L"tx_LRadarBias_Y";
-				 this->tx_LRadarBias_Y->Size = System::Drawing::Size(41, 12);
-				 this->tx_LRadarBias_Y->TabIndex = 3;
-				 this->tx_LRadarBias_Y->Text = L"label7";
-				 // 
-				 // tx_LRadarBias_X
-				 // 
-				 this->tx_LRadarBias_X->AutoSize = true;
-				 this->tx_LRadarBias_X->Location = System::Drawing::Point(92, 15);
-				 this->tx_LRadarBias_X->Name = L"tx_LRadarBias_X";
-				 this->tx_LRadarBias_X->Size = System::Drawing::Size(41, 12);
-				 this->tx_LRadarBias_X->TabIndex = 2;
-				 this->tx_LRadarBias_X->Text = L"label6";
-				 // 
-				 // label13
-				 // 
-				 this->label13->AutoSize = true;
-				 this->label13->Location = System::Drawing::Point(69, 42);
-				 this->label13->Name = L"label13";
-				 this->label13->Size = System::Drawing::Size(17, 12);
-				 this->label13->TabIndex = 1;
-				 this->label13->Text = L"Y:";
-				 // 
-				 // label14
-				 // 
-				 this->label14->AutoSize = true;
-				 this->label14->Location = System::Drawing::Point(69, 16);
-				 this->label14->Name = L"label14";
-				 this->label14->Size = System::Drawing::Size(17, 12);
-				 this->label14->TabIndex = 1;
-				 this->label14->Text = L"X:";
-				 // 
-				 // Btn_LeftBias
-				 // 
-				 this->Btn_LeftBias->Location = System::Drawing::Point(3, 6);
-				 this->Btn_LeftBias->Name = L"Btn_LeftBias";
-				 this->Btn_LeftBias->Size = System::Drawing::Size(58, 62);
-				 this->Btn_LeftBias->TabIndex = 0;
-				 this->Btn_LeftBias->Text = L"確定";
-				 this->Btn_LeftBias->UseVisualStyleBackColor = true;
-				 this->Btn_LeftBias->Click += gcnew System::EventHandler(this, &MyForm::Btn_LeftBias_Click);
-				 // 
-				 // tabPage6
-				 // 
-				 this->tabPage6->Controls->Add(this->ckBox_RadarR);
-				 this->tabPage6->Controls->Add(this->tx_RRadarBias_X);
-				 this->tabPage6->Controls->Add(this->tx_RRadarBias_Y);
-				 this->tabPage6->Controls->Add(this->label17);
-				 this->tabPage6->Controls->Add(this->label18);
-				 this->tabPage6->Controls->Add(this->Btn_RightBias);
-				 this->tabPage6->Location = System::Drawing::Point(4, 22);
-				 this->tabPage6->Name = L"tabPage6";
-				 this->tabPage6->Padding = System::Windows::Forms::Padding(3);
-				 this->tabPage6->Size = System::Drawing::Size(158, 75);
-				 this->tabPage6->TabIndex = 1;
-				 this->tabPage6->Text = L"右邊雷達";
-				 this->tabPage6->UseVisualStyleBackColor = true;
-				 // 
-				 // ckBox_RadarR
-				 // 
-				 this->ckBox_RadarR->AutoSize = true;
-				 this->ckBox_RadarR->Location = System::Drawing::Point(67, 55);
-				 this->ckBox_RadarR->Name = L"ckBox_RadarR";
-				 this->ckBox_RadarR->Size = System::Drawing::Size(84, 16);
-				 this->ckBox_RadarR->TabIndex = 9;
-				 this->ckBox_RadarR->Text = L"雷達在右邊";
-				 this->ckBox_RadarR->UseVisualStyleBackColor = true;
-				 // 
-				 // tx_RRadarBias_X
-				 // 
-				 this->tx_RRadarBias_X->AutoSize = true;
-				 this->tx_RRadarBias_X->Location = System::Drawing::Point(91, 16);
-				 this->tx_RRadarBias_X->Name = L"tx_RRadarBias_X";
-				 this->tx_RRadarBias_X->Size = System::Drawing::Size(41, 12);
-				 this->tx_RRadarBias_X->TabIndex = 8;
-				 this->tx_RRadarBias_X->Text = L"label8";
-				 // 
-				 // tx_RRadarBias_Y
-				 // 
-				 this->tx_RRadarBias_Y->AutoSize = true;
-				 this->tx_RRadarBias_Y->Location = System::Drawing::Point(91, 41);
-				 this->tx_RRadarBias_Y->Name = L"tx_RRadarBias_Y";
-				 this->tx_RRadarBias_Y->Size = System::Drawing::Size(41, 12);
-				 this->tx_RRadarBias_Y->TabIndex = 7;
-				 this->tx_RRadarBias_Y->Text = L"label9";
-				 // 
-				 // label17
-				 // 
-				 this->label17->AutoSize = true;
-				 this->label17->Location = System::Drawing::Point(69, 41);
-				 this->label17->Name = L"label17";
-				 this->label17->Size = System::Drawing::Size(17, 12);
-				 this->label17->TabIndex = 5;
-				 this->label17->Text = L"Y:";
-				 // 
-				 // label18
-				 // 
-				 this->label18->AutoSize = true;
-				 this->label18->Location = System::Drawing::Point(69, 16);
-				 this->label18->Name = L"label18";
-				 this->label18->Size = System::Drawing::Size(17, 12);
-				 this->label18->TabIndex = 6;
-				 this->label18->Text = L"X:";
-				 // 
-				 // Btn_RightBias
-				 // 
-				 this->Btn_RightBias->Location = System::Drawing::Point(3, 6);
-				 this->Btn_RightBias->Name = L"Btn_RightBias";
-				 this->Btn_RightBias->Size = System::Drawing::Size(58, 62);
-				 this->Btn_RightBias->TabIndex = 4;
-				 this->Btn_RightBias->Text = L"確定";
-				 this->Btn_RightBias->UseVisualStyleBackColor = true;
-				 this->Btn_RightBias->Click += gcnew System::EventHandler(this, &MyForm::Btn_RightBias_Click);
-				 // 
-				 // label20
-				 // 
-				 this->label20->AutoSize = true;
-				 this->label20->Location = System::Drawing::Point(15, 119);
-				 this->label20->Name = L"label20";
-				 this->label20->Size = System::Drawing::Size(41, 12);
-				 this->label20->TabIndex = 4;
-				 this->label20->Text = L"Angle:";
-				 // 
-				 // Btn_RadarAngle_Connect
-				 // 
-				 this->Btn_RadarAngle_Connect->Location = System::Drawing::Point(99, 21);
-				 this->Btn_RadarAngle_Connect->Name = L"Btn_RadarAngle_Connect";
-				 this->Btn_RadarAngle_Connect->Size = System::Drawing::Size(75, 23);
-				 this->Btn_RadarAngle_Connect->TabIndex = 1;
-				 this->Btn_RadarAngle_Connect->Text = L"連接";
-				 this->Btn_RadarAngle_Connect->UseVisualStyleBackColor = true;
-				 // 
-				 // cBox_Radar_Angle
-				 // 
-				 this->cBox_Radar_Angle->FormattingEnabled = true;
-				 this->cBox_Radar_Angle->Location = System::Drawing::Point(6, 21);
-				 this->cBox_Radar_Angle->Name = L"cBox_Radar_Angle";
-				 this->cBox_Radar_Angle->Size = System::Drawing::Size(87, 20);
-				 this->cBox_Radar_Angle->TabIndex = 0;
 				 // 
 				 // groupBox9
 				 // 
@@ -973,8 +651,6 @@ namespace WinForm_LRSensor {
 				 this->groupBox6->Controls->Add(this->Tx_Radar_Mode);
 				 this->groupBox6->Controls->Add(this->cBox_TBox);
 				 this->groupBox6->Controls->Add(this->Btn_TboxCnt);
-				 this->groupBox6->Controls->Add(this->label3);
-				 this->groupBox6->Controls->Add(this->label6);
 				 this->groupBox6->Location = System::Drawing::Point(12, 325);
 				 this->groupBox6->Name = L"groupBox6";
 				 this->groupBox6->Size = System::Drawing::Size(481, 246);
@@ -1128,26 +804,10 @@ namespace WinForm_LRSensor {
 				 this->Btn_TboxCnt->UseVisualStyleBackColor = true;
 				 this->Btn_TboxCnt->Click += gcnew System::EventHandler(this, &MyForm::Btn_TboxCnt_Click);
 				 // 
-				 // label3
-				 // 
-				 this->label3->AutoSize = true;
-				 this->label3->Location = System::Drawing::Point(6, 59);
-				 this->label3->Name = L"label3";
-				 this->label3->Size = System::Drawing::Size(59, 12);
-				 this->label3->TabIndex = 9;
-				 this->label3->Text = L"目前車速:";
-				 // 
-				 // label6
-				 // 
-				 this->label6->AutoSize = true;
-				 this->label6->Location = System::Drawing::Point(82, 59);
-				 this->label6->Name = L"label6";
-				 this->label6->Size = System::Drawing::Size(11, 12);
-				 this->label6->TabIndex = 10;
-				 this->label6->Text = L"0";
-				 // 
 				 // tabPage8
 				 // 
+				 this->tabPage8->Controls->Add(this->tBox_LoadPath);
+				 this->tabPage8->Controls->Add(this->Btn_LoadFilePath);
 				 this->tabPage8->Controls->Add(this->Tx_CarSpeed2);
 				 this->tabPage8->Controls->Add(this->Btn_PlayPause);
 				 this->tabPage8->Controls->Add(this->pictureBox2);
@@ -1158,6 +818,24 @@ namespace WinForm_LRSensor {
 				 this->tabPage8->TabIndex = 2;
 				 this->tabPage8->Text = L"回放";
 				 this->tabPage8->UseVisualStyleBackColor = true;
+				 // 
+				 // tBox_LoadPath
+				 // 
+				 this->tBox_LoadPath->Location = System::Drawing::Point(1334, 515);
+				 this->tBox_LoadPath->Name = L"tBox_LoadPath";
+				 this->tBox_LoadPath->ReadOnly = true;
+				 this->tBox_LoadPath->Size = System::Drawing::Size(412, 22);
+				 this->tBox_LoadPath->TabIndex = 16;
+				 // 
+				 // Btn_LoadFilePath
+				 // 
+				 this->Btn_LoadFilePath->Location = System::Drawing::Point(1752, 504);
+				 this->Btn_LoadFilePath->Name = L"Btn_LoadFilePath";
+				 this->Btn_LoadFilePath->Size = System::Drawing::Size(69, 41);
+				 this->Btn_LoadFilePath->TabIndex = 15;
+				 this->Btn_LoadFilePath->Text = L"...";
+				 this->Btn_LoadFilePath->UseVisualStyleBackColor = true;
+				 this->Btn_LoadFilePath->Click += gcnew System::EventHandler(this, &MyForm::Btn_LoadFilePath_Click);
 				 // 
 				 // Tx_CarSpeed2
 				 // 
@@ -1189,9 +867,11 @@ namespace WinForm_LRSensor {
 				 // chart2
 				 // 
 				 chartArea2->AxisX->Interval = 100;
+				 chartArea2->AxisX->IsReversed = true;
 				 chartArea2->AxisX->Maximum = 1000;
 				 chartArea2->AxisX->Minimum = -1000;
 				 chartArea2->AxisY->Interval = 100;
+				 chartArea2->AxisY->IsReversed = true;
 				 chartArea2->AxisY->Maximum = 6000;
 				 chartArea2->AxisY->Minimum = 0;
 				 chartArea2->Name = L"ChartArea1";
@@ -1260,10 +940,6 @@ namespace WinForm_LRSensor {
 				 // 
 				 this->timer1->Tick += gcnew System::EventHandler(this, &MyForm::timer1_Tick);
 				 // 
-				 // serialPort_Radar_Angle
-				 // 
-				 this->serialPort_Radar_Angle->DataReceived += gcnew System::IO::Ports::SerialDataReceivedEventHandler(this, &MyForm::serialPort_Radar_Angle_DataReceived);
-				 // 
 				 // serialPort_Tbox
 				 // 
 				 this->serialPort_Tbox->DataReceived += gcnew System::IO::Ports::SerialDataReceivedEventHandler(this, &MyForm::serialPort_Tbox_DataReceived);
@@ -1292,16 +968,6 @@ namespace WinForm_LRSensor {
 				 this->groupBox1->ResumeLayout(false);
 				 this->groupBox5->ResumeLayout(false);
 				 this->groupBox5->PerformLayout();
-				 this->groupBox8->ResumeLayout(false);
-				 this->groupBox8->PerformLayout();
-				 this->groupBox10->ResumeLayout(false);
-				 this->groupBox10->PerformLayout();
-				 this->groupBox7->ResumeLayout(false);
-				 this->tabControl3->ResumeLayout(false);
-				 this->tabPage5->ResumeLayout(false);
-				 this->tabPage5->PerformLayout();
-				 this->tabPage6->ResumeLayout(false);
-				 this->tabPage6->PerformLayout();
 				 this->groupBox9->ResumeLayout(false);
 				 this->groupBox9->PerformLayout();
 				 this->groupBox6->ResumeLayout(false);
@@ -1342,14 +1008,12 @@ namespace WinForm_LRSensor {
 	private:void ComPortRefresh(void)
 	{
 		cBox_LiDAR->Items->Clear();
-		cBox_Radar_Angle->Items->Clear();
 		cBox_TBox->Items->Clear();
 		cBox_Radar->Items->Clear();
 		cBox_CameraList->Items->Clear();
 
 		cli::array<System::String^>^ Port = SerialPort::GetPortNames();
 		cBox_LiDAR->Items->AddRange(Port);
-		cBox_Radar_Angle->Items->AddRange(Port);
 		cBox_TBox->Items->AddRange(Port);
 		cBox_Radar->Items->AddRange(Port);
 		std::map<int, Device> devices = de.getVideoDevicesMap();
@@ -1363,9 +1027,10 @@ namespace WinForm_LRSensor {
 	}
 	private: System::Void Btn_CamCnt_Click(System::Object^  sender, System::EventArgs^  e) {
 		if (cap.isOpened())cap.release();
-	
-		cap.open(CV_CAP_DSHOW);
-		//cap.open(Convert::ToInt16(cBox_CameraList->Text->Substring(0, 1)));
+
+
+		//cap.open(CV_CAP_DSHOW);
+		cap.open(Convert::ToInt16(cBox_CameraList->Text->Substring(0, 1)));
 		ComPortNoRecord[2] = Convert::ToInt16(cBox_CameraList->Text->Substring(0, 1));
 		string str = FileNameTime + (string)"\\VideoTest.avi";
 		videoWrite.open(str, CV_FOURCC('M', 'J', 'P', 'G'), 30, cv::Size(640, 480));
@@ -1447,6 +1112,13 @@ namespace WinForm_LRSensor {
 			_sleep(500);
 			serialPort_LiDAR->Write(continuous_LMS_data_manage, 0, 8);
 		}
+
+		ComPortNoRecord[0] = Convert::ToInt16(cBox_LiDAR->Text->Remove(0, 3));
+
+		fstream fp_ComID;
+		fp_ComID.open("ComRecord.txt", ios::out);
+		fp_ComID << ComPortNoRecord[0] << " " << ComPortNoRecord[1] << " " << ComPortNoRecord[2] << endl;
+		fp_ComID.close();
 	}
 	private: System::Void timer1_Tick(System::Object^  sender, System::EventArgs^  e) {
 
@@ -1523,37 +1195,18 @@ namespace WinForm_LRSensor {
 			float time = (float)(t2 - t1) / CLK_TCK;
 			t1 = t2;
 			FindClosePoint(Pt_newClusterRefPt, Pt_oldClusterRefPoint, time, CurrentSpeed);
-			for (uint i = 0; i < Pt_newClusterRefPt.size(); i++)
-			{
-				chart1->Series[1]->Points->AddXY(Pt_newClusterRefPt[i].x, Pt_newClusterRefPt[i].y);
-				if (Pt_newClusterRefPt[i].velcity != 0)
-					chart1->Series[1]->Points[i]->Label = "(" + Math::Round(Pt_newClusterRefPt[i].x, 2).ToString() + " , " + Math::Round(Pt_newClusterRefPt[i].y, 2).ToString() + " , " + Math::Round(Pt_newClusterRefPt[i].velcity / 100 * 3.6 + TBox.currentSpeed, 2).ToString() + ")";
-			}
+			//for (uint i = 0; i < Pt_newClusterRefPt.size(); i++)
+		//	{
+			//	chart1->Series[1]->Points->AddXY(Pt_newClusterRefPt[i].x, Pt_newClusterRefPt[i].y);
+		//		if (Pt_newClusterRefPt[i].velcity != 0)
+				 //	chart1->Series[1]->Points[i]->Label = "(" + Math::Round(Pt_newClusterRefPt[i].x, 2).ToString() + " , " + Math::Round(Pt_newClusterRefPt[i].y, 2).ToString() + " , " + Math::Round(Pt_newClusterRefPt[i].velcity / 100 * 3.6, 2).ToString() + ")";
+		//	}
 			chart1->Refresh();
 			Pt_oldClusterRefPoint = Pt_newClusterRefPt;
 		}
 #pragma endregion
 
-#pragma region 純角度的雷達
-		if (serialPort_Radar_Angle->IsOpen)
-		{
-			lbBsdAngleT->Text = Math::Round(bsdAngle, 2).ToString();
-			Pt Radar_Angle_Point;
-			if (ckBox_RadarR->Checked)
-			{
-				Pt Rotation = CoordinateRotation(-125.0f, AngleRadar_Point);
-				Radar_Angle_Point.x = Rotation.x + right_Radar_bias.x;
-				Radar_Angle_Point.y = Rotation.y + right_Radar_bias.y;
-			}
-			else
-			{
-				Pt Rotationtmp = CoordinateRotation(-35.0f, AngleRadar_Point);
-				Radar_Angle_Point.x = Rotationtmp.y + left_Radar_bias.x;
-				Radar_Angle_Point.y = Rotationtmp.x + left_Radar_bias.y;
-			}
-			chart1->Series["Series_Radar_Angle"]->Points->AddXY(Radar_Angle_Point.x, Radar_Angle_Point.y);
-		}
-#pragma endregion
+
 
 #pragma region TBox
 		if (serialPort_Tbox->IsOpen)
@@ -1585,6 +1238,7 @@ namespace WinForm_LRSensor {
 						closetPt = Pt_newClusterRefPt[i];
 					}
 				}
+				chart1->Series["Series_TBox_LRadar"]->Points->AddXY(R_RadarPtAtLiDAR.x, R_RadarPtAtLiDAR.y);
 			}
 			else
 				tx_TBox_RAngle->ForeColor = Color::Blue;
@@ -1593,7 +1247,7 @@ namespace WinForm_LRSensor {
 			{
 
 				tx_TBox_LAngle->ForeColor = Color::Red;
-				tx_TBox_LAngle->Text = "L Range: " + TBox.L_RADAR_Range.ToString() + " L Angle: " + TBox.L_RADAR_Angle.ToString();
+				tx_TBox_LAngle->Text = "L Range: " + TBox.L_RADAR_Range.ToString() + " L Angle: " + TBox.L_RADAR_Angle.ToString()+ " L Speed: " + TBox.L_RADAR_Speed.ToString();
 				Pt L_RadarPtAtLiDAR = L_Radar2LiDAR(Pt(100 * TBox.L_RADAR_Range*Math::Cos(TBox.L_RADAR_Angle*M_PI / 180.f), 100 * TBox.L_RADAR_Range*Math::Sin(TBox.L_RADAR_Angle*M_PI / 180.f)));
 				double minDistant = 8000000;
 				double distant;
@@ -1628,7 +1282,7 @@ namespace WinForm_LRSensor {
 				<< TBox.R_RADAR_Angle << " "
 				<< System::DateTime::Now.Minute << " " << System::DateTime::Now.Second << endl;
 			fp_TBox.close();
-			tx_TBox_RAngle->Text = "R Range: " + TBox.R_RADAR_Range.ToString() + " R Angle: " + TBox.R_RADAR_Angle.ToString();
+			tx_TBox_RAngle->Text = "R Range: " + TBox.R_RADAR_Range.ToString() + " R Angle: " + TBox.R_RADAR_Angle.ToString() + " R Speed: " + TBox.R_RADAR_Speed.ToString();
 
 
 		}
@@ -1692,10 +1346,7 @@ namespace WinForm_LRSensor {
 		Btn_TboxCnt->PerformClick();
 		Btn_CamCnt->PerformClick();
 	}
-	private: System::Void Btn_Send_RadarAngle_Cmd_Click_1(System::Object^  sender, System::EventArgs^  e) {
-		cli::array<byte>^ cmd = gcnew cli::array<System::Byte>{ 0x80, 0x64, 0xA1, 0x1F, 0x7C, 0x00, 0x00, 0xAB, 0xFD, 0x01, 0x00, 0xC9};
-		serialPort_Radar_Angle->Write(cmd, 0, 12);
-	}
+
 	private: System::Void Btn_LiDARClose_Click(System::Object^  sender, System::EventArgs^  e) {
 		cli::array<System::Byte>^ LMS_Stope_manage = gcnew cli::array<System::Byte>{ 0x02, 0x00, 0x02, 0x00, 0x20, 0x25, 0x38, 0x08};
 		serialPort_LiDAR->Write(LMS_Stope_manage, 0, 8);
@@ -1707,6 +1358,8 @@ namespace WinForm_LRSensor {
 		{
 		case 1://BSD
 		{
+			chart1->ChartAreas[0]->AxisX->Maximum = 1000;
+			chart1->ChartAreas[0]->AxisX->Minimum = -1000;
 			for (uint j = 400; j < 1200; j += 100)
 			{
 				chart1->Series["Series_RadarDetectArea"]->Points->AddXY(380, j);
@@ -1733,7 +1386,8 @@ namespace WinForm_LRSensor {
 		}
 		break;
 		case 0x02://RCTA
-
+			chart1->ChartAreas[0]->AxisX->Maximum = 2000;
+			chart1->ChartAreas[0]->AxisX->Minimum = -2000;
 			for (uint j = 0; j < 1000; j += 100)
 			{
 				chart1->Series["Series_RadarDetectArea"]->Points->AddXY(-2000, j);
@@ -1749,6 +1403,8 @@ namespace WinForm_LRSensor {
 
 			break;
 		case 0x03://DOW
+			chart1->ChartAreas[0]->AxisX->Maximum = 1000;
+			chart1->ChartAreas[0]->AxisX->Minimum = -1000;
 			for (uint j = 0; j < 2000; j += 100)
 			{
 				chart1->Series["Series_RadarDetectArea"]->Points->AddXY(380, j);
@@ -1824,97 +1480,46 @@ namespace WinForm_LRSensor {
 	}
 
 	private: System::Void serialPort_Tbox_DataReceived(System::Object^  sender, System::IO::Ports::SerialDataReceivedEventArgs^  e) {
-		cli::array<System::Byte>^bTboxData = gcnew cli::array<Byte>(format);
-		serialPort_Tbox->Read(bTboxData, 0, 1);
+		cli::array<System::Byte>^bTboxData = gcnew cli::array<Byte>(122);
 
-		if (bTboxData[0] == 0x80)
+		byte Checksum = 0;
+		int ReadLength = serialPort_Tbox->Read(bTboxData, 0, 122);
+		for (uint i = 0; i < ReadLength; i++)
 		{
-			byte Checksum = 0;
-			serialPort_Tbox->Read(bTboxData, 1, format - 1);
-			for (uint i = 0; i < format - 1; i++)
+			if (bTboxData[i] == 0x86)
 			{
-				Checksum += bTboxData[i];
+				for (uint j = i; j < i + 24; j++)
+				{
+					Checksum += bTboxData[j];
+				}
+
+				if (Checksum == bTboxData[i + format - 1])
+				{
+					TBox.currentSpeed = bTboxData[i + 9];
+					TBox.L_RADAR_Mode = bTboxData[i + 14];
+					TBox.L_RADAR_ALert = bTboxData[i + 15];
+					TBox.L_RADAR_Range = bTboxData[i + 16];
+					TBox.L_RADAR_Speed = bTboxData[i + 17] - 127;
+					TBox.L_RADAR_Angle = bTboxData[i + 18] - 127;
+					TBox.R_RADAR_Mode = bTboxData[i + 19];
+					TBox.R_RADAR_ALert = bTboxData[i + 20];
+					TBox.R_RADAR_Range = bTboxData[i + 21];
+					TBox.R_RADAR_Speed = bTboxData[i + 22] - 127;
+					TBox.R_RADAR_Angle = bTboxData[i + 23] - 127;
+					CurrentSpeed = bTboxData[i + 9];
+				}
+
 			}
-			if (Checksum == bTboxData[format - 1])
-			{
-				TBox.currentSpeed = bTboxData[9];
-				TBox.L_RADAR_Mode = bTboxData[14];
-				TBox.L_RADAR_ALert = bTboxData[15];
-				TBox.L_RADAR_Range = bTboxData[16];
-				TBox.L_RADAR_Speed = bTboxData[17] - 127;
-				TBox.L_RADAR_Angle = bTboxData[18] - 127;
-				TBox.R_RADAR_Mode = bTboxData[19];
-				TBox.R_RADAR_ALert = bTboxData[20];
-				TBox.R_RADAR_Range = bTboxData[21];
-				TBox.R_RADAR_Speed = bTboxData[22] - 127;
-				TBox.R_RADAR_Angle = bTboxData[23] - 127;
-				CurrentSpeed = bTboxData[9];
-			}
+
 		}
-		if (serialPort_Tbox->BytesToRead >= format * 2)
+
+
+		if (serialPort_Tbox->BytesToRead >= 122)
 		{
 			serialPort_Tbox->DiscardInBuffer();
 		}
 	}
-	private: System::Void serialPort_Radar_Angle_DataReceived(System::Object^  sender, System::IO::Ports::SerialDataReceivedEventArgs^  e) {
-		cli::array<System::Byte>^ bufferBsd = gcnew cli::array<Byte>(12);
-		byte bChecksum = 0;
-		if (serialPort_Radar_Angle->BytesToRead < 12)
-			return;
-		if ((byte)serialPort_Radar_Angle->ReadByte() == 0x54)
-		{
-			bufferBsd[0] = 0x54;
-			serialPort_Radar_Angle->Read(bufferBsd, 1, 11);
-			for (int i = 0; i < 11; i++) // checksum store in end of Frame 
-			{
-				bChecksum += bufferBsd[i];
-			}
-			if (bChecksum != bufferBsd[11])
-				return;
-			if (bufferBsd[1] == 0x64)//判斷是不是回傳資料
-			{
-				byte check_send = bufferBsd[9];
-				return;
-			}
-			//判斷Command有沒有送
-			if (bufferBsd[2] != 0xA1)
-			{
-				//bsd_Messige("Not valid BSD data!\r\n", "error");
-				SetLabelText("Command沒送");
-				//Loading_BSD = false;
-				return;
-			}
-			//判斷有無目標
-			if ((bufferBsd[1] != 1) || (bufferBsd[4] != 0xff) || (bufferBsd[5] != 0xff) || (bufferBsd[6] != 0xff))
-			{
-				SetLabelText("沒有目標");
-				//bsd_Messige("No goal!\r\n", "error");
-
-				return;
-			}
-			bsdAngle = ((bufferBsd[9] + bufferBsd[10] * 256) - 10000) / 100.0;
-			AngleRadar_Point = Pt(targetDistant*Math::Cos(bsdAngle*M_PI / 180.f), targetDistant*Math::Sin(bsdAngle*M_PI / 180.f));
-
-		}
-		if (serialPort_Radar_Angle->BytesToRead >= 24)
-		{
-			serialPort_Radar_Angle->DiscardInBuffer();// To Flush the BSD Data  
-		}
-	}
-	protected: delegate void SetLabel(System::String^ str);
-	private:void SetLabelText(System::String^ str)
-	{
-		if (this->lbBsdAngleT->InvokeRequired)
-		{
-			SetLabel ^d = gcnew SetLabel(this, &MyForm::SetLabelText);
-			this->Invoke(d, gcnew cli::array<Object^> { str });
-		}
-		else
-		{
-			this->lbBsdAngleT->Text = str;
-			this->lbBsdAngleT->Refresh();
-		}
-	}
+	
 
 	private:void LoadData()
 	{
@@ -1927,66 +1532,14 @@ namespace WinForm_LRSensor {
 		fp >> right_Radar_bias.x;
 		fp >> right_Radar_bias.y;
 		fp.close();
-		tx_LRadarBias_X->Text = Math::Round(right_Radar_bias.x, 2).ToString();
-		tx_LRadarBias_Y->Text = Math::Round(right_Radar_bias.y, 2).ToString();
-		tx_RRadarBias_X->Text = Math::Round(left_Radar_bias.x, 2).ToString();
-		tx_RRadarBias_Y->Text = Math::Round(left_Radar_bias.y, 2).ToString();
+
 	}
 	private: System::Void Btn_UpDateSetting_Click(System::Object^  sender, System::EventArgs^  e) {
-		targetDistant = Convert::ToDouble(txBox_targetDistant->Text) * 100;
+	
 		PartitionValue = Convert::ToDouble(tBox_Partition->Text) * 100;
 	}
-	private: System::Void Btn_LeftBias_Click(System::Object^  sender, System::EventArgs^  e) {
-		Pt Rotation = CoordinateRotation(-35.0f, AngleRadar_Point);
-		double minDistant = 8000000;
-		double distant;
-		Pt closetPt;
-		for (uint i = 0; i < Pt_oldClusterRefPoint.size(); i++)
-		{
-			distant = sqrt(pow(Pt_oldClusterRefPoint[i].x, 2) + pow(Pt_oldClusterRefPoint[i].y, 2));
-			if (distant < minDistant)
-			{
-				minDistant = distant;
-				left_Radar_bias.x = Pt_oldClusterRefPoint[i].x - Rotation.y;
-				left_Radar_bias.y = Pt_oldClusterRefPoint[i].y - Rotation.x;
-			}
-		}
 
 
-		tx_LRadarBias_X->Text = Math::Round(left_Radar_bias.x, 2).ToString();
-		tx_LRadarBias_Y->Text = Math::Round(left_Radar_bias.y, 2).ToString();
-
-		std::fstream fp;
-		fp.open("LBias.txt", std::ios::out);
-		fp << left_Radar_bias.x << " " << left_Radar_bias.y;
-		fp.close();
-		ckBox_RadarR->Checked = false;
-	}
-	private: System::Void Btn_RightBias_Click(System::Object^  sender, System::EventArgs^  e) {
-		ckBox_RadarR->Checked = true;
-		Pt Rotation = CoordinateRotation(-125.0f, AngleRadar_Point);
-		double minDistant = 8000000;
-		double distant;
-		Pt closetPt;
-		
-		for (uint i = 0; i < Pt_oldClusterRefPoint.size(); i++)
-		{
-			distant = sqrt(pow(Pt_oldClusterRefPoint[i].x, 2) + pow(Pt_oldClusterRefPoint[i].y, 2));
-			if (distant < minDistant)
-			{
-				minDistant = distant;
-				right_Radar_bias.x = Pt_oldClusterRefPoint[i].x - Rotation.y;
-				right_Radar_bias.y = Pt_oldClusterRefPoint[i].y - Rotation.x;
-			}
-		}
-		tx_RRadarBias_X->Text = Math::Round(right_Radar_bias.x, 2).ToString();
-		tx_RRadarBias_Y->Text = Math::Round(right_Radar_bias.y, 2).ToString();
-		f_getRRadarBias = true;
-		std::fstream fp;
-		fp.open("RBias.txt", std::ios::out);
-		fp << right_Radar_bias.x << " " << right_Radar_bias.y;
-		fp.close();
-	}
 	private:Pt CoordinateRotation(double degree, Pt P)
 	{
 		Pt Ans;
@@ -2021,91 +1574,114 @@ namespace WinForm_LRSensor {
 		cBox_CameraList->Text = ComPortNoRecord[2].ToString();
 	}
 	private: System::Void Btn_PlayPause_Click(System::Object^  sender, System::EventArgs^  e) {
-		timer2->Interval = 500;
+
+
+		fp_LiDarReader.open(LoadFilePath + "\\Lidar.txt", ios::in);
+		cap.open(LoadFilePath + "\\VideoTest.avi");
+		uint16_t total_frameNo = cap.get(CV_CAP_PROP_FRAME_COUNT);
+		//uint16_t total_frameNo = GetCaptureProperty(cap, CV_CAP_PROP_FRAME_COUNT);
+		timer2->Interval = 30;
 		timer2->Start();
-		fp_LiDarReader.open("Lidar.txt", ios::in);
 		t1 = 0;
 		DrawBoundary(1);
 	}
+    int debugger = 0;
 	private: System::Void timer2_Tick(System::Object^  sender, System::EventArgs^  e) {
 
-		char line[10000];
-		chart2->Series["Series_LiDAR"]->Points->Clear();
-		chart2->Series[1]->Points->Clear();
-		fp_LiDarReader.getline(line, sizeof(line), '\n');
-		System::String^ str = gcnew System::String(line);
-		cli::array<System::String^> ^StringArray = str->Split(' ');
-		vector<Pt>LIDAR_cooridate;
-		if (StringArray->Length > 10)
+		if (cap.isOpened())
 		{
-			for (uint i = 0; i < 361; i++)
-			{
-				LIDAR_X_cooridate[i] = System::Convert::ToDouble(StringArray[i]) * cos((0.5 * i) * (M_PI / 180));
-				LIDAR_Y_cooridate[i] = System::Convert::ToDouble(StringArray[i]) * sin((0.5 * i) * (M_PI / 180));
-				if (System::Convert::ToDouble(StringArray[i]) < 6000 && abs(LIDAR_X_cooridate[i]) < 1000)
-					LIDAR_cooridate.push_back(Pt(LIDAR_X_cooridate[i], LIDAR_Y_cooridate[i], System::Convert::ToDouble(StringArray[i]), 0.5 * i));
-			}
-			CurrentSpeed = System::Convert::ToDouble(StringArray[362]);
-			vector<Pt>Pt_newClusterRefPt;
-			vector<int >lab;
-			int nObj = EuclidCluster(LIDAR_cooridate, 200);
-		//	int nObj = DBSCAN(LIDAR_cooridate, PartitionValue, 2);
-			vector<vector<Pt>> Pt_ClusterList_new = Cluster2List(LIDAR_cooridate, nObj);
-			Pt_newClusterRefPt.resize(Pt_ClusterList_new.size());
-			int index = 0;
-			for (uint16_t i = 0; i < Pt_ClusterList_new.size(); i++)
-			{
-				double  minX = 8000;
-				double minY = 8000;
-				Pt min;
-				Color color = Color::FromArgb(rng.uniform(0, 255), rng.uniform(0, 255), rng.uniform(0, 255));
-				for (uint j = 0; j < Pt_ClusterList_new[i].size(); j++)
-				{
-					if (Pt_ClusterList_new[i][j].isCore)
-					{
-						if (abs(Pt_ClusterList_new[i][j].x) < minX)
-						{
-							min.x = Pt_ClusterList_new[i][j].x;
-							minX = abs(Pt_ClusterList_new[i][j].x);
-						}
-						if (abs(Pt_ClusterList_new[i][j].y) < minY)
-						{
-							minY = abs(Pt_ClusterList_new[i][j].y);
-							min.y = Pt_ClusterList_new[i][j].y;
-						}
-					}
-					chart2->Series["Series_LiDAR"]->Points->AddXY(Pt_ClusterList_new[i][j].x, Pt_ClusterList_new[i][j].y);
-					chart2->Series["Series_LiDAR"]->Points[index]->Color = color;
-					index++;
-				}
-				Pt_newClusterRefPt[i] = min;
-				Pt_newClusterRefPt[i].range = get_Distance(min, Pt(0, 0));
-
-			}
-			if (Pt_oldClusterRefPoint.size() == 0) {
-				for (uint i = 0; i < Pt_newClusterRefPt.size(); i++)
-					Pt_newClusterRefPt[i].KF_initial();
-				Pt_oldClusterRefPoint = Pt_newClusterRefPt;
-				t1 = System::Convert::ToDouble(StringArray[361]);
-				return;
-			}
-
-			time_t t2 = System::Convert::ToDouble(StringArray[361]);
-			float time = (float)(t2 - t1) / CLK_TCK;
-			t1 = t2;
+			double currentPos = cap.get(CV_CAP_PROP_POS_FRAMES);
+			cap.set(CV_CAP_PROP_POS_FRAMES, currentPos-1);
+			Mat frame;
+			cap >> frame;
+			if(!frame.empty())
+		 	ShowImage(pictureBox2, frame);
 		
-			FindClosePoint(Pt_newClusterRefPt, Pt_oldClusterRefPoint, time, CurrentSpeed);
-			for (uint i = 0; i < Pt_newClusterRefPt.size(); i++)
-			{
-				
-				chart2->Series[1]->Points->AddXY(Pt_newClusterRefPt[i].x, Pt_newClusterRefPt[i].y);
-
-				chart2->Series[1]->Points[i]->Label = "(" + Math::Round(Pt_newClusterRefPt[i].x, 2).ToString() + " , " + Math::Round(Pt_newClusterRefPt[i].y, 2).ToString() + " , " + Math::Round(Pt_newClusterRefPt[i].velcity , 2).ToString() + ")";
-			}
-			Tx_CarSpeed2->Text = (-CurrentSpeed).ToString();
-			chart2->Refresh();
-			Pt_oldClusterRefPoint = Pt_newClusterRefPt;
+			
+			std::cout << "CV_CAP_PROP_POS_FRAMES = " << currentPos << std::endl;
 		}
+		if (!fp_LiDarReader.eof())
+		{
+			char line[10000];
+			chart2->Series["Series_LiDAR"]->Points->Clear();
+			chart2->Series[1]->Points->Clear();
+			fp_LiDarReader.getline(line, sizeof(line), '\n');
+			System::String^ str = gcnew System::String(line);
+			cli::array<System::String^> ^StringArray = str->Split(' ');
+			vector<Pt>LIDAR_cooridate;
+			if (StringArray->Length > 10)
+			{
+				for (uint i = 0; i < 361; i++)
+				{
+					LIDAR_X_cooridate[i] = System::Convert::ToDouble(StringArray[i]) * cos((0.5 * i) * (M_PI / 180));
+					LIDAR_Y_cooridate[i] = System::Convert::ToDouble(StringArray[i]) * sin((0.5 * i) * (M_PI / 180));
+					if (System::Convert::ToDouble(StringArray[i]) < 6000 && abs(LIDAR_X_cooridate[i]) < 2000)
+						LIDAR_cooridate.push_back(Pt(LIDAR_X_cooridate[i], LIDAR_Y_cooridate[i], System::Convert::ToDouble(StringArray[i]), 0.5 * i));
+				}
+				CurrentSpeed = System::Convert::ToDouble(StringArray[362]);
+				vector<Pt>Pt_newClusterRefPt;
+				vector<int >lab;
+				int nObj = EuclidCluster(LIDAR_cooridate, 200);
+				//	int nObj = DBSCAN(LIDAR_cooridate, PartitionValue, 2);
+				vector<vector<Pt>> Pt_ClusterList_new = Cluster2List(LIDAR_cooridate, nObj);
+				Pt_newClusterRefPt.resize(Pt_ClusterList_new.size());
+				int index = 0;
+				for (uint16_t i = 0; i < Pt_ClusterList_new.size(); i++)
+				{
+
+					double  minX = 8000;
+					double minY = 8000;
+					Pt min;
+					Color color = Color::FromArgb(rng.uniform(0, 255), rng.uniform(0, 255), rng.uniform(0, 255));
+					for (uint j = 0; j < Pt_ClusterList_new[i].size(); j++)
+					{
+						if (Pt_ClusterList_new[i][j].isCore)
+						{
+							if (abs(Pt_ClusterList_new[i][j].x) < minX)
+							{
+								min.x = Pt_ClusterList_new[i][j].x;
+								minX = abs(Pt_ClusterList_new[i][j].x);
+							}
+							if (abs(Pt_ClusterList_new[i][j].y) < minY)
+							{
+								minY = abs(Pt_ClusterList_new[i][j].y);
+								min.y = Pt_ClusterList_new[i][j].y;
+							}
+						}
+						chart2->Series["Series_LiDAR"]->Points->AddXY(Pt_ClusterList_new[i][j].x, Pt_ClusterList_new[i][j].y);
+						chart2->Series["Series_LiDAR"]->Points[index]->Color = color;
+						index++;
+					}
+					Pt_newClusterRefPt[i] = min;
+					Pt_newClusterRefPt[i].range = get_Distance(min, Pt(0, 0));
+
+				}
+				if (Pt_oldClusterRefPoint.size() == 0) {
+					for (uint i = 0; i < Pt_newClusterRefPt.size(); i++)
+						Pt_newClusterRefPt[i].KF_initial();
+					Pt_oldClusterRefPoint = Pt_newClusterRefPt;
+					t1 = System::Convert::ToDouble(StringArray[361]);
+					return;
+				}
+
+				time_t t2 = System::Convert::ToDouble(StringArray[361]);
+				float time = (float)(t2 - t1) / CLK_TCK;
+				t1 = t2;
+
+				FindClosePoint(Pt_newClusterRefPt, Pt_oldClusterRefPoint, time, CurrentSpeed);
+				for (uint i = 0; i < Pt_newClusterRefPt.size(); i++)
+				{
+
+					chart2->Series[1]->Points->AddXY(Pt_newClusterRefPt[i].x, Pt_newClusterRefPt[i].y);
+					chart2->Series[1]->Points[i]->Label = "(" + Math::Round(Pt_newClusterRefPt[i].x, 2).ToString() + " , " + Math::Round(Pt_newClusterRefPt[i].y, 2).ToString() + " , " + Math::Round(Pt_newClusterRefPt[i].velcity, 2).ToString() + ")";
+				}
+				Tx_CarSpeed2->Text = (-CurrentSpeed).ToString();
+				chart2->Refresh();
+				Pt_oldClusterRefPoint = Pt_newClusterRefPt;
+			}
+		}
+		cout << debugger << endl;
+		debugger++;
 	}
 
 
@@ -2120,6 +1696,16 @@ namespace WinForm_LRSensor {
 		system(str.c_str());
 		str = FileNameTime + (string)"\\VideoTest.avi";
 		videoWrite.open(str, CV_FOURCC('M', 'J', 'P', 'G'), 30, cv::Size(640, 480));
+	}
+	private: System::Void Btn_LoadFilePath_Click(System::Object^  sender, System::EventArgs^  e) {
+		FolderBrowserDialog^ openFileDialog1 = gcnew FolderBrowserDialog;
+
+		if (openFileDialog1->ShowDialog() == System::Windows::Forms::DialogResult::OK)
+		{
+			LoadFilePath = (char*)(void*)Marshal::StringToHGlobalAnsi(openFileDialog1->SelectedPath);
+			tBox_LoadPath->Text = openFileDialog1->SelectedPath;
+		}
+
 	}
 	};
 }
